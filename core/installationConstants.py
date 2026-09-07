@@ -9,7 +9,10 @@ DEV_MODE =  platform.system() != "Linux"
 
 AUDIO_DEVICE = "Headphones"
 #USING HEADPHONES APPEARS AS CHANNEL 4 VIA -LISTdev
-AUDIOCHANNEL = 4
+
+
+#audio channel can shift?
+AUDIOCHANNEL = "0"
 
 
 

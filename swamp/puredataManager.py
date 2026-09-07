@@ -41,8 +41,8 @@ class PuredataManager:
 
         #configuration of PD
         pdconfiguration = [
-            "pd","-nogui", "-alsa", '-noadc'
-            "-audiooutdev", AUDIOCHANNEL ,"-channels","2","-r","44100",
+            "pd","-nogui", "-alsa", '-noadc',
+            "-audiooutdev", self.audio_device ,"-channels","2","-r","44100",
             self.patch_path
         ]
 
