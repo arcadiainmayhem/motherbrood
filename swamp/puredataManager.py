@@ -48,13 +48,16 @@ class PuredataManager:
 
         try:
             #starts another program - tetlls OS to launch it
-            self.process = subprocess.Popen(pdconfiguration)
+            self.process = subprocess.Popen(pdconfiguration , stderr=subprocess.PIPE)
 
             time.sleep(1)
 
   
             if self.process.poll() is not None:
                 #died on startup
+                errors = self.process.stderr.read().decode() #.read() returns bytes and .decode() turns it into string
+                print("[PUREDATAMANAGER]" PD Died : {errors})
+            
                 self.process = None
                 return False
             #process is running

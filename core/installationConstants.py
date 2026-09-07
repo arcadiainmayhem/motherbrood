@@ -12,7 +12,7 @@ AUDIO_DEVICE = "Headphones"
 
 
 #audio channel can shift?
-AUDIOCHANNEL = "0"
+AUDIOCHANNEL = "1"
 
 
 
