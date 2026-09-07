@@ -32,6 +32,7 @@ class PuredataManager:
 
 
     #start swampbed - puredata
+    #have to run the patch FROM the console to start + turn on DSP 
     def start(self):
 
         if DEV_MODE:
@@ -40,8 +41,8 @@ class PuredataManager:
 
         #configuration of PD
         pdconfiguration = [
-            "pd","-nogui", "-alsa", 
-            "-audiooutdev", self.audio_device,"-channels","2","-r","44100",
+            "pd","-nogui", "-alsa", '-noadc'
+            "-audiooutdev", AUDIOCHANNEL ,"-channels","2","-r","44100",
             self.patch_path
         ]
 
