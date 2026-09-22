@@ -3,8 +3,9 @@
 #SCHEMA OF CICADA
 BUG_FRAME = {
     "id" : int,
-    "state" : str,
+    "state" : int,
     "arousal" : float,
+    "callingTimer" : float,
     "seq" : int
 }
 

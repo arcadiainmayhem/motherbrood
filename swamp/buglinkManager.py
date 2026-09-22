@@ -17,8 +17,6 @@ class BugLinkManager:
         self.ser.baudrate = baudrate
         self.ser.port = port
 
-        #check open
-        self.isOpen = False
 
         self._buf = b""
         self.droppedFrames=0
@@ -29,8 +27,7 @@ class BugLinkManager:
         try:
             self.ser.open()
 
-            #set flags
-            self.isOpen = True
+
         except Exception as e:
             print(f"[BUGLINKMANAGER] Cant open serial port because of {e}")
 
@@ -98,8 +95,7 @@ class BugLinkManager:
         except Exception as e:
             print(f"[BUGLINKMANAGER] Error as : {e}")
             return None
-            
-    
+
 
     def is_connected(self):
         return self.ser is not None and self.ser.is_open

@@ -5,7 +5,8 @@
 UART_DEVICE = "/dev/serial0"
 UART_BAUD = 115200
 
-
+MOTHER_PORT = "/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0"
+MOTHER_BAUD = 115200
 
 #PI GPIO WIRING
 PI_RX = 15

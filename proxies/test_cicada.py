@@ -2,10 +2,45 @@
 from swamp.buglinkManager import BugLinkManager
 from swamp.broodswarm import Broodswarm
 from swamp.cicadaConstants import BROOD_IDS
-from hardware.hardwareConstants import UART_DEVICE, UART_BAUD
+from hardware.hardwareConstants import MOTHER_PORT,MOTHER_BAUD
+import time
+
+buglink = BugLinkManager( MOTHER_PORT, MOTHER_BAUD) 
 
 
-buglink = BugLinkManager( "COM3" , UART_BAUD)
+#open
+buglink.open()
+print("[SWAMPBED] MOTHER ESP LINKED TO MOTHERPI VIA SERIAL")
 
 
-#need to test incoming message from ESPMOTHER
+swarm = Broodswarm(BROOD_IDS)
+
+try: 
+#incoming messages
+#while the port is open
+
+    while (buglink.is_connected()):
+        time.sleep(0.1)
+
+        frames = buglink.poll()
+
+        #check against empty
+        if not frames:
+            continue
+
+        print("[TEST]: ", frames)    
+            
+        for frame in frames:
+
+            now = time.monotonic()
+
+            swarm.update(frame,now)
+
+
+
+            print("Cicadas: " , swarm.broodlings)
+
+
+except KeyboardInterrupt:
+    buglink.close()
+    print(f"[TEST] Stopping ")
