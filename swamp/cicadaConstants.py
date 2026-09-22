@@ -1,12 +1,12 @@
 
 
-#SCHEMA OF CICADA
+#SCHEMA OF CICADA - MUST MATCH WITH MOTHER
 BUG_FRAME = {
     "id" : int,
     "state" : int,
     "arousal" : float,
     "callingTimer" : float,
-    "seq" : int
+    #"seq" : int
 }
 
 
