@@ -23,9 +23,9 @@ try:
 
     while (buglink.is_connected()):
         time.sleep(0.1)
-        print("[TEST] POLLING ")
-        frames = buglink.poll()
 
+        frames = buglink.poll()
+        print("[TEST] Frames Polled")
         #check against empty
         if not frames:
             continue
