@@ -4,6 +4,8 @@ from swamp.broodswarm import Broodswarm
 from swamp.cicadaConstants import BROOD_IDS
 from hardware.hardwareConstants import MOTHER_PORT,MOTHER_BAUD
 import time
+from swamp.cicadaConstants import BUG_FRAME
+
 
 buglink = BugLinkManager( MOTHER_PORT, MOTHER_BAUD) 
 
@@ -11,7 +13,7 @@ buglink = BugLinkManager( MOTHER_PORT, MOTHER_BAUD)
 #open
 buglink.open()
 print("[SWAMPBED] MOTHER ESP LINKED TO MOTHERPI VIA SERIAL")
-
+print(list(BUG_FRAME))
 
 swarm = Broodswarm(BROOD_IDS)
 
@@ -21,7 +23,7 @@ try:
 
     while (buglink.is_connected()):
         time.sleep(0.1)
-
+        print("[TEST] POLLING ")
         frames = buglink.poll()
 
         #check against empty
