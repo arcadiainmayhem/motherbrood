@@ -1,0 +1,20 @@
+
+
+
+#UART COMMS
+UART_DEVICE = "/dev/serial0"
+UART_BAUD = 115200
+
+
+
+#PI GPIO WIRING
+PI_RX = 15
+PI_TX = 14
+
+
+
+
+ESP_MAC_ADDR = {}
+
+
+MOTHER_ESP_MAC_ADDR = {0x00, 0x70, 0x07, 0x7E, 0x4A, 0x94}
