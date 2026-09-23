@@ -10,7 +10,7 @@ class PuredataManager:
 
 
 
-    def __init__(self , patch_path , audio_device , osc_port):
+    def __init__(self , patch_path , osc_port):
 
 
         self.patch_path = str(patch_path)
@@ -19,7 +19,7 @@ class PuredataManager:
         if not Path(patch_path).exists():
             raise FileNotFoundError(f"Patch not found {patch_path}")
 
-        self.audio_device = audio_device
+        self.audio_device = self._find_audio_device()
 
 
 
@@ -42,7 +42,7 @@ class PuredataManager:
         #configuration of PD
         pdconfiguration = [
             "pd","-nogui", "-alsa", '-noadc',
-            "-audiooutdev", self.audio_device ,"-channels","2","-r","44100",
+            "-audiooutdev", str(self.audio_device) ,"-channels","2","-r","44100",
             self.patch_path
         ]
 

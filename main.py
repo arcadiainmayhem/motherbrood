@@ -1,7 +1,7 @@
 from swamp.puredataManager import PuredataManager
 from swamp.swampbedConstants import BED_OSC_PORT
 from swamp.patches.patchlibrary import TEST_PATCH
-from core.installationConstants import DEV_MODE , AUDIO_DEVICE , AUDIOCHANNEL
+from core.installationConstants import DEV_MODE , AUDIO_DEVICE  
 from directors.swampbedDirector import SwampbedDirector
 import time
 
@@ -10,7 +10,7 @@ import time
 
 
 def main():
-    puredatabed = PuredataManager(TEST_PATCH , AUDIOCHANNEL , BED_OSC_PORT)
+    puredatabed = PuredataManager(TEST_PATCH , BED_OSC_PORT)
     if not puredatabed.start():
         print("[MAIN] Puredatabed failed to start")
 
