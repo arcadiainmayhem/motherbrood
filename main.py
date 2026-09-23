@@ -21,7 +21,7 @@ def main():
     print("[MAIN] Swampbed Initialised")
 
     buglink = BugLinkManager( MOTHER_PORT , MOTHER_BAUD)
-
+    print("[MAIN] More Bug fixes")
     buglink.open()
 
     print("[MAIN] Mother Port Open - Talking")
@@ -50,7 +50,7 @@ def main():
 
 
 
-                puredatabed.send("/bed/openness" , frame["arousal"])
+                    puredatabed.send("/bed/openness" , frame["arousal"])
     
 
     except KeyboardInterrupt:
