@@ -3,6 +3,12 @@ from swamp.swampbedConstants import BED_OSC_PORT
 from swamp.patches.patchlibrary import TEST_PATCH
 from core.installationConstants import DEV_MODE , AUDIO_DEVICE  
 from directors.swampbedDirector import SwampbedDirector
+from swamp.buglinkManager import BugLinkManager
+from swamp.broodswarm import Broodswarm
+from swamp.cicadaConstants import BROOD_IDS
+from hardware.hardwareConstants import MOTHER_PORT,MOTHER_BAUD
+import time
+from swamp.cicadaConstants import BUG_FRAME
 import time
 
 
@@ -18,16 +24,37 @@ def main():
 
     print("[MAIN] Swampbed Initialised")
 
+    buglink = BugLinkManager( MOTHER_PORT , MOTHER_BAUD)
 
-    # swampbed = SwampbedDirector()
-    # swampbed.start()
+    buglink.open()
 
+    print("[MAIN] Mother Port Open - Talking")
+
+    swarm = Broodswarm(BROOD_IDS)
 
     try:
         while True:
-            time.sleep(0.1)
+            
 
-            puredatabed.send("/swampbed/openess" , 0.8)
+            while (buglink.is_connected):
+                time.sleep(0.1)
+
+                frames = buglink.poll()
+
+
+                if not frames:
+                    continue
+
+
+                for frame in frames:
+                    now = time.monotonic()
+                    swarm.update(frame , now)
+                    
+                    print("Cicadas: " , swarm.broodlings)
+
+
+
+                puredatabed.send("/bed/openness" , frame["arousal"])
     
 
     except KeyboardInterrupt:
