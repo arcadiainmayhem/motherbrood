@@ -42,7 +42,9 @@ class PuredataManager:
         #configuration of PD
         pdconfiguration = [
             "pd","-nogui", "-alsa", '-noadc',
-            "-audiooutdev", str(self.audio_device) ,"-channels","2","-r","44100",
+            "-audiooutdev", str(self.audio_device) ,"-channels","2","-r","44100", 
+            "-path", "/home/arcadia/Documents/else",
+            "-lib",  "else",
             self.patch_path
         ]
 
