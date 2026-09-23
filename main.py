@@ -1,14 +1,10 @@
 from swamp.puredataManager import PuredataManager
 from swamp.swampbedConstants import BED_OSC_PORT
 from swamp.patches.patchlibrary import TEST_PATCH
-from core.installationConstants import DEV_MODE , AUDIO_DEVICE  
-from directors.swampbedDirector import SwampbedDirector
 from swamp.buglinkManager import BugLinkManager
 from swamp.broodswarm import Broodswarm
 from swamp.cicadaConstants import BROOD_IDS
 from hardware.hardwareConstants import MOTHER_PORT,MOTHER_BAUD
-import time
-from swamp.cicadaConstants import BUG_FRAME
 import time
 
 
