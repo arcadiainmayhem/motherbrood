@@ -1,4 +1,4 @@
-from swamp.cicadaConstants import BROOD_TIMEOUT
+from swamp.cicadaConstants import BROOD_TIMEOUT , BUG_FRAME
 
 class Broodswarm:
 
@@ -10,25 +10,18 @@ class Broodswarm:
 
         for broodling in brood_ids:
 
-            self.broodlings[broodling] = {
-                
-                "state": None,
+            row = {}
+            self.broodlings[broodling] = row
 
-                "arousal": None,
+            for name in BUG_FRAME:
+                #skip id
+                if name != "id":
+                    row[name] = None
 
-                "seq" : None,
+                row["last_seen"] = None
 
-
-
-
-                
-                "last_seen" : None,
-
-
-            }
-
-
-
+        
+        
 
 
 

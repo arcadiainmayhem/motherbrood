@@ -3,7 +3,7 @@ import subprocess , time
 from pathlib import Path
 from core.installationConstants import *
 from pythonosc.udp_client import SimpleUDPClient
-
+from hardware.hardwareConstants import PD_AUDIO_DEVICE_NAME
 LOOPBACK_IP = "127.0.0.1"
 
 class PuredataManager:
@@ -86,7 +86,23 @@ class PuredataManager:
         self.stop()
         return self.start()
 
+    def _find_audio_device(self):
 
+        result = subprocess.run(
+            ["pd" , "-nogui","-alsa","-listdev","-send","pd quit"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            
+        )
+        #splitlines and search
+        parsed = result.stderr.splitlines()
+
+        for x in parsed:
+            if x == PD_AUDIO_DEVICE_NAME:
+                return x
+
+        print(result.stderr)
 
     def is_running(self):
         return self.process is not None and self.process.poll() is None

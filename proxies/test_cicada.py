@@ -25,7 +25,7 @@ try:
         time.sleep(0.1)
 
         frames = buglink.poll()
-        print("[TEST] Frames Polled")
+        
         #check against empty
         if not frames:
             continue
