@@ -32,7 +32,7 @@ def main():
         while True:
             
 
-            while (buglink.is_connected):
+            while (buglink.is_connected()):
                 time.sleep(0.1)
 
                 frames = buglink.poll()

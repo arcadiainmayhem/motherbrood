@@ -100,7 +100,7 @@ class PuredataManager:
         #splitlines and search
         parsed = result.stderr.splitlines()
 
-        print(result.stderr)
+        #print(result.stderr)
 
         for x in parsed:
             if PD_AUDIO_DEVICE_NAME in x:
