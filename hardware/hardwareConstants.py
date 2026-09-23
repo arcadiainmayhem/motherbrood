@@ -14,7 +14,7 @@ PI_TX = 14
 
 
 
-PD_AUDIO_DEVICE_NAME = "snd_rpi_hifiberry_dac (plug-in)"
+PD_AUDIO_DEVICE_NAME = "snd_rpi_hifiberry_dacplus (plug-in)"
 
 ESP_MAC_ADDR = {}
 
