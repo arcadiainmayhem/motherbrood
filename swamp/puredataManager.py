@@ -98,11 +98,14 @@ class PuredataManager:
         #splitlines and search
         parsed = result.stderr.splitlines()
 
-        for x in parsed:
-            if x == PD_AUDIO_DEVICE_NAME:
-                return x
-
         print(result.stderr)
+
+        for x in parsed:
+            if x in PD_AUDIO_DEVICE_NAME:
+                stripped = x.strip()
+                return int(stripped)
+
+        
 
     def is_running(self):
         return self.process is not None and self.process.poll() is None
