@@ -101,11 +101,12 @@ class PuredataManager:
         print(result.stderr)
 
         for x in parsed:
-            if x in PD_AUDIO_DEVICE_NAME:
-                stripped = x.strip()
-                return int(stripped)
+            if PD_AUDIO_DEVICE_NAME in x:
+                result = x.split("." , 1) #returns list
+                final = result[0].strip()
+                return int(final)
 
-        
+
 
     def is_running(self):
         return self.process is not None and self.process.poll() is None
