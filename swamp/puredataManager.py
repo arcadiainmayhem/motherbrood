@@ -41,9 +41,9 @@ class PuredataManager:
 
         #configuration of PD 
         pdconfiguration = [
-            "PD_BINARY","-nogui", "-alsa", '-noadc',
+            PD_BINARY,"-nogui", "-alsa", '-noadc',
             "-audiooutdev", str(self.audio_device) ,"-channels","2","-r","44100", 
-            "-path", "/home/arcadia/Documents/else",
+            "-path", PD_EXTERNALS_PATH,
             "-lib",  "else",
             self.patch_path
         ]
@@ -91,7 +91,7 @@ class PuredataManager:
     def _find_audio_device(self):
 
         result = subprocess.run(
-            ["PD_BINARY" , "-nogui","-alsa","-listdev","-send","pd quit"],
+            [PD_BINARY , "-nogui","-alsa","-listdev","-send","pd quit"],
             capture_output=True,
             text=True,
             timeout=5,
