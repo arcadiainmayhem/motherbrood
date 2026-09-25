@@ -34,11 +34,12 @@ def main():
 
             frames = buglink.poll()
 
-            print("[MAIN]",frames)
 
             if not frames:
                 continue
 
+
+            print("[MAIN]",frames , buglink.droppedFrames)
 
             for frame in frames:
                 now = time.monotonic()
