@@ -12,7 +12,8 @@ MOTHER_BAUD = 115200
 PI_RX = 15
 PI_TX = 14
 
-
+PD_BINARY = "/usr/local/bin/pd"
+PD_EXTERNALS_PATH = "/home/arcadia/Documents/else"
 
 PD_AUDIO_DEVICE_NAME = "snd_rpi_hifiberry_dacplus (plug-in)"
 

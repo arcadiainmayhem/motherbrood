@@ -3,7 +3,7 @@ import subprocess , time
 from pathlib import Path
 from core.installationConstants import *
 from pythonosc.udp_client import SimpleUDPClient
-from hardware.hardwareConstants import PD_AUDIO_DEVICE_NAME
+from hardware.hardwareConstants import PD_AUDIO_DEVICE_NAME , PD_BINARY, PD_EXTERNALS_PATH
 LOOPBACK_IP = "127.0.0.1"
 
 class PuredataManager:
@@ -39,9 +39,9 @@ class PuredataManager:
             print("[PUREDATAMANAGER] DEV MODE - Assuming Plugdata is open")
             return True
 
-        #configuration of PD
+        #configuration of PD 
         pdconfiguration = [
-            "pd","-nogui", "-alsa", '-noadc',
+            "PD_BINARY","-nogui", "-alsa", '-noadc',
             "-audiooutdev", str(self.audio_device) ,"-channels","2","-r","44100", 
             "-path", "/home/arcadia/Documents/else",
             "-lib",  "else",
@@ -91,7 +91,7 @@ class PuredataManager:
     def _find_audio_device(self):
 
         result = subprocess.run(
-            ["pd" , "-nogui","-alsa","-listdev","-send","pd quit"],
+            ["PD_BINARY" , "-nogui","-alsa","-listdev","-send","pd quit"],
             capture_output=True,
             text=True,
             timeout=5,
