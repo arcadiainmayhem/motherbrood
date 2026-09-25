@@ -21,41 +21,40 @@ def main():
     print("[MAIN] Swampbed Initialised")
 
     buglink = BugLinkManager( MOTHER_PORT , MOTHER_BAUD)
-    print("[MAIN] More Bug fixes")
+    
     buglink.open()
 
     print("[MAIN] Mother Port Open - Talking")
 
     swarm = Broodswarm(BROOD_IDS)
 
-    try:
-        while True:
-            
+    try:         
+        while (buglink.is_connected()):
+            time.sleep(0.1)
 
-            while (buglink.is_connected()):
-                time.sleep(0.1)
+            frames = buglink.poll()
 
-                frames = buglink.poll()
+            print("[MAIN]",frames)
 
-
-                if not frames:
-                    continue
+            if not frames:
+                continue
 
 
-                for frame in frames:
-                    now = time.monotonic()
-                    swarm.update(frame , now)
+            for frame in frames:
+                now = time.monotonic()
+                swarm.update(frame , now)
                     
-                    print("Cicadas: " , swarm.broodlings)
+                print("Cicadas: " , swarm.broodlings)
 
 
 
-                    puredatabed.send("/bed/openness" , frame["arousal"])
+                puredatabed.send("/bed/openness" , frame["arousal"])
     
 
     except KeyboardInterrupt:
         #stop
         pass
+
     finally:
         puredatabed.stop()
         print("Swamp Stopped")
