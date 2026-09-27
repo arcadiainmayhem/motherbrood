@@ -2,9 +2,16 @@
 
 #SCHEMA OF CICADA - MUST MATCH WITH MOTHER
 BUG_FRAME = {
+    "type":int,
     "id" : int,
-    "state" : int,
+    "firmware":int,
+    "uptime":int,
+    "packetCount":int,
+
     "arousal" : float,
+    "state" : int,
+    "personality":int,
+    
     "callingTimer" : float,
     #"seq" : int
 }
