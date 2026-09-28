@@ -45,8 +45,7 @@ class SwampbedDirector():
     #start PD , open port
     def start(self):
         #start puredata 
-        
-        self.puredatabed.start()
+       
 
         if not self.puredatabed.start():
             print("[SWAMPBEDDIRECTOR] Puredata Not Started")
@@ -54,20 +53,19 @@ class SwampbedDirector():
 
 
         #start MOTHER PORT link
-        self.buglink.open()
+    
 
         if not self.buglink.open():
             print("[SWAMPBEDDIRECTOR] MOTHER Port Not Open")
             return
 
-        self.panellink.open()
-
+    
         if not self.panellink.open():
             print("[SWAMPBEDDIRECTOR] MOTHER Panel Port Not Open")
             return     
            
         #initialise swarm
-        swarm = Broodswarm(BROOD_IDS)
+        self.swarm = Broodswarm(BROOD_IDS)
 
 
         #after everything has been iniitialised
@@ -76,13 +74,13 @@ class SwampbedDirector():
     #reads incoming frames
     def _read(self):
         try:
-            while (self.buglink.is_connected()):
+            if (self.buglink.is_connected()):
                 time.sleep(0.1)
                 
                 frames = self.buglink.poll()
 
                 if not frames:
-                    continue
+                    return 
 
                 print(f"[SWAMPBEDDIRECTOR] Frames: ",frames, ".There are ",self.buglink.droppedFrames, " Dropped Frames: ")       
 
@@ -90,15 +88,17 @@ class SwampbedDirector():
                 #map to cicada
                 for frame in frames:
 
-                    now = time.monotonic
+                    now = time.monotonic()
 
                     self.swarm.update(frame , now) 
 
                     print(f"[SWAMPBEDDIRECTOR] Cicadas :" , self.swarm.broodlings)
 
+
+
                                   
         except Exception as e:
-            print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : f{e}] ")
+            print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
     
     #main logic of what incoming data means
     def _decide(self):
@@ -106,7 +106,7 @@ class SwampbedDirector():
 
     #send out commands . values to mothers 
     def send(self):
-        
+
         print("[SWAMPBEDDIRECTOR] SENDING VALUE")
 
     def stop(self):
