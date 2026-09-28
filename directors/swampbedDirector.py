@@ -82,24 +82,23 @@ class SwampbedDirector():
     #reads incoming frames
     def _read(self):
         try:
-            if (self.buglink.is_connected()):
-                
-                frames = self.buglink.poll()
 
-                if not frames:
-                    return 
+            frames = self.buglink.poll()
 
-                print(f"[SWAMPBEDDIRECTOR] Frames: ",frames, ".There are ",self.buglink.droppedFrames, " Dropped Frames: ")       
+            if not frames:
+                return 
+
+            print(f"[SWAMPBEDDIRECTOR] Frames: ",frames, ".There are ",self.buglink.droppedFrames, " Dropped Frames: ")       
 
 
-                #map to cicada
-                for frame in frames:
+            #map to cicada
+            for frame in frames:
 
-                    now = time.monotonic()
+                now = time.monotonic()
 
-                    self.swarm.update(frame , now) 
+                self.swarm.update(frame , now) 
 
-                    print(f"[SWAMPBEDDIRECTOR] Cicadas :" , self.swarm.broodlings)
+                print(f"[SWAMPBEDDIRECTOR] Cicadas :" , self.swarm.broodlings)
 
   
         except Exception as e:
