@@ -21,7 +21,9 @@ def main():
 
     try:         
         while True:
-         swampbed.send()           
+            time.sleep(0.1)
+            
+            swampbed.send()           
 
 
     except KeyboardInterrupt:
