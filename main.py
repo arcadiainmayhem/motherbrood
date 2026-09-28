@@ -20,9 +20,9 @@ def main():
     print("[MAIN] Swampbed Started Successfully ")
 
     try:         
+        while True:
+         swampbed.send()           
 
-        swampbed.send()           
-        
 
     except KeyboardInterrupt:
         #stop
