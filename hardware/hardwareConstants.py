@@ -5,8 +5,10 @@
 UART_DEVICE = "/dev/serial0"
 UART_BAUD = 115200
 
-#MOTHER_PORT = "/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0" [ USED BIGGED ESP32 ]
-MOTHER_PORT = "/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_30:ED:A0:65:9C:D0-if00"
+MOTHER_PANEL_PORT = "/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0" #ESP32 38 PIN
+
+MOTHER_PORT = "/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_30:ED:A0:65:9C:D0-if00" #ESP32 C3 SUPERMINI
+
 MOTHER_BAUD = 115200
 
 #PI GPIO WIRING
