@@ -68,7 +68,9 @@ class SwampbedDirector():
 
         #after everything has been iniitialised
         self.isSwampActive = True
-        print("[SWAMPBEDDIRECTOR] PuredataEverything Started Successfully")
+        print("[SWAMPBEDDIRECTOR] PUREDATA , MOTHER PORT , PANEL PORT - Everything Started Successfully")
+
+        return True
 
 
     #reads incoming frames
