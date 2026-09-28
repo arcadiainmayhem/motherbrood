@@ -6,7 +6,7 @@ def main():
     #start
     swampbed = SwampbedDirector()
 
-    if swampbed.start():
+    if not swampbed.start():
         print("[MAIN] SWAMPBED not started successfully")
         return 
 
