@@ -72,11 +72,18 @@ class PuredataManager:
             return False
 
     def stop(self):
+
+        print("[PUREDATAMANAGER] ATTEMPTING TO STOP PD INSTANCE")
         if self.process is None:
             return
+        
+        print("[PUREDATAMANAGER] STOPPING PD INSTANCE NOW", self.process.pid)
+
         self.process.terminate()
+        
         try:
             self.process.wait(timeout = 3)
+
         except subprocess.TimeoutExpired:
 
             self.process.kill()
