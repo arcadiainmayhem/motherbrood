@@ -98,7 +98,9 @@ class SwampbedDirector():
 
                 self.swarm.update(frame , now) 
 
-                print(f"[SWAMPBEDDIRECTOR] Cicadas :" , self.swarm.broodlings)
+                bugId = frame['id']            
+                
+                print(f"[SWAMPBEDDIRECTOR] Current Updated Cicada: {self.swarm.broodlings[bugId]}")
 
   
         except Exception as e:

@@ -6,13 +6,15 @@ def main():
     #start
     swampbed = SwampbedDirector()
 
-    if not swampbed.start(): #if not true
-        print("[MAIN] SWAMPBED not started successfully")
-        return 
 
-    print("[MAIN] Swampbed Started Successfully ")
 
-    try:         
+    try:    
+        if not swampbed.start(): #if not true
+            print("[MAIN] SWAMPBED not started successfully")
+            return 
+
+        print("[MAIN] Swampbed Started Successfully ")     
+
         while True:
             
             swampbed.tick()           
