@@ -53,8 +53,6 @@ class SwampbedDirector():
 
 
         #start MOTHER PORT link
-    
-
         if not self.buglink.open():
             print("[SWAMPBEDDIRECTOR] MOTHER Port Not Open")
             return False
@@ -70,7 +68,9 @@ class SwampbedDirector():
 
         #after everything has been iniitialised
         self.isSwampActive = True
-    
+        print("[SWAMPBEDDIRECTOR] PuredataEverything Started Successfully")
+
+
     #reads incoming frames
     def _read(self):
         try:
@@ -112,8 +112,8 @@ class SwampbedDirector():
         print("[SWAMPBEDDIRECTOR] SENDING VALUE")
 
     def stop(self):
-        #stop puredata
-        self.puredatabed.stop()
+        #stop puredata - [MIGHT NOT BE STOPPING IT PROPERLY]
+        self.puredatabed.stop() 
 
         #close bug and panel link
         self.buglink.close()

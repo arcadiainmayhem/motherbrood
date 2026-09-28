@@ -26,10 +26,10 @@ class PanellinkManager:
         try:
             self.ser.open()
 
-
+            return True
         except Exception as e:
             print(f"[PANELLINKMANAGER] Cant open serial port because of {e}")
-
+            return False
 
     def close(self):
         #closes serial port / destroy object
