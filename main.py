@@ -15,15 +15,16 @@ def main():
 
     #start
     swampbed = SwampbedDirector()
-    swampbed.start()
+    if not swampbed.start():
+        print("[MAIN] SWAMPBED not started successfully")
+        return 
 
     print("[MAIN] Swampbed Started Successfully ")
 
     try:         
         while True:
-            time.sleep(0.1)
             
-            swampbed.send()           
+            swampbed.tick()           
 
 
     except KeyboardInterrupt:

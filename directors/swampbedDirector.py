@@ -49,7 +49,7 @@ class SwampbedDirector():
 
         if not self.puredatabed.start():
             print("[SWAMPBEDDIRECTOR] Puredata Not Started")
-            return
+            return False
 
 
         #start MOTHER PORT link
@@ -57,12 +57,12 @@ class SwampbedDirector():
 
         if not self.buglink.open():
             print("[SWAMPBEDDIRECTOR] MOTHER Port Not Open")
-            return
+            return False
 
     
         if not self.panellink.open():
             print("[SWAMPBEDDIRECTOR] MOTHER Panel Port Not Open")
-            return     
+            return False      
            
         #initialise swarm
         self.swarm = Broodswarm(BROOD_IDS)
@@ -75,7 +75,6 @@ class SwampbedDirector():
     def _read(self):
         try:
             if (self.buglink.is_connected()):
-                time.sleep(0.1)
                 
                 frames = self.buglink.poll()
 
@@ -94,18 +93,21 @@ class SwampbedDirector():
 
                     print(f"[SWAMPBEDDIRECTOR] Cicadas :" , self.swarm.broodlings)
 
-
-
-                                  
+  
         except Exception as e:
             print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
+
+    def tick(self):
+        self._read()
+        self._decide()
+        self._send()
     
     #main logic of what incoming data means
     def _decide(self):
-        pass
+        print("[SWAMPBEDDIRECTOR] DECIDING WHAT TO DO WITH VALUE")
 
     #send out commands . values to mothers 
-    def send(self):
+    def _send(self):
 
         print("[SWAMPBEDDIRECTOR] SENDING VALUE")
 
