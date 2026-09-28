@@ -71,7 +71,13 @@ class SwampbedDirector():
         print("[SWAMPBEDDIRECTOR] PUREDATA , MOTHER PORT , PANEL PORT - Everything Started Successfully")
 
         return True
+    
+    def tick(self):
+        time.sleep(0.1)
 
+        self._read()
+        # self._decide()
+        # self._send()
 
     #reads incoming frames
     def _read(self):
@@ -99,10 +105,6 @@ class SwampbedDirector():
         except Exception as e:
             print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
 
-    def tick(self):
-        self._read()
-        self._decide()
-        self._send()
     
     #main logic of what incoming data means
     def _decide(self):

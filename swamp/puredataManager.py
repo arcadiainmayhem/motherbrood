@@ -77,10 +77,10 @@ class PuredataManager:
         if self.process is None:
             return
         
-        print("[PUREDATAMANAGER] STOPPING PD INSTANCE NOW", self.process.pid)
+        print("[PUREDATAMANAGER] STOPPING PD INSTANCE NOW: ", self.process.pid)
 
         self.process.terminate()
-        
+
         try:
             self.process.wait(timeout = 3)
 
@@ -104,6 +104,7 @@ class PuredataManager:
             timeout=5,
             
         )
+        
         #splitlines and search
         parsed = result.stderr.splitlines()
 
