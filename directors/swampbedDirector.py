@@ -144,7 +144,7 @@ class SwampbedDirector():
         #send 
 
         for name,value in self.bedmapper.bedvalues.items():
-            self.puredatabed.send(f"BED_PREFIX/{name}" , value)
+            self.puredatabed.send(f"BED_PREFIX{name}" , value)
         
         print(f"[SWAMPBEDDIRECTOR] SENDING NAME: {name} , VALUE: {value}")
 
