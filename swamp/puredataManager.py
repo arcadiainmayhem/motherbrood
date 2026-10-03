@@ -47,8 +47,6 @@ class PuredataManager:
             print("[PUREDATAMANAGER] DEV MODE - Assuming Plugdata is open")
             
 
-        
-        
         #configuration of PD 
         pdconfiguration = [
                 PD_BINARY,"-nogui", "-alsa", '-noadc',
@@ -106,6 +104,7 @@ class PuredataManager:
         return self.start()
 
     def _find_audio_device(self):
+
         if not LAUNCH_PD:
             print("[PUREDATAMANGER] DEV MODE - NO AUDIO DEVICE ")
             return None
@@ -115,7 +114,6 @@ class PuredataManager:
 
             return None
 
-        LAUNCH_PD = True
         result = subprocess.run(
             [PD_BINARY , "-nogui","-alsa","-listdev","-send","pd quit"],
             capture_output=True,
