@@ -1,5 +1,5 @@
 from swamp.puredataManager import PuredataManager
-from swamp.swampbedConstants import BED_OSC_PORT
+from swamp.bed.swampbedConstants import BED_OSC_PORT
 from swamp.patches.patchlibrary import TEST_PATCH
 from core.installationConstants import DEV_MODE , AUDIO_DEVICE , AUDIOCHANNEL
 

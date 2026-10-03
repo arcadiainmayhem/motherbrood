@@ -38,8 +38,14 @@ def deadband(reading , accepted, threshold ):
 
 
 
-#smoothing
-
-
-#ratelimiting
-
+#smoothing 
+def smoothing(current, target, rise , fall):
+    #smooth glide / arupt
+    difference = target - current
+    if(difference > 0):
+        step = difference * rise
+    else:
+        step = difference * fall 
+    
+    final = current + step
+    return final

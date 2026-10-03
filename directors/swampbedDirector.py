@@ -1,17 +1,21 @@
 
 from swamp.puredataManager import PuredataManager
-from swamp.swampbedConstants import BED_OSC_PORT
-from swamp.patches.patchlibrary import TEST_PATCH
-
 from swamp.buglinkManager import BugLinkManager
 from swamp.panellinkManager import PanellinkManager
 
+from swamp.bed.swampbedConstants import BED_OSC_PORT
+from swamp.patches.patchlibrary import TEST_PATCH
+
+
 from swamp.broodswarm import Broodswarm
+from swamp.bed.bedmapper import Bedmapper
+
 from swamp.cicadaConstants import BROOD_IDS
 
+from swamp.bed.swampbedConstants import SWAMPBED_PARAMS_SETTINGS , BED_PREFIX
 from hardware.hardwareConstants import MOTHER_PORT,MOTHER_BAUD , MOTHER_PANEL_PORT
 
-from core.utilities import scale , deadband , clamp
+
 import time
 
 
@@ -40,7 +44,11 @@ class SwampbedDirector():
         self.buglink = BugLinkManager( MOTHER_PORT , MOTHER_BAUD)
         #setup panellink 
         self.panellink = PanellinkManager(MOTHER_PANEL_PORT, MOTHER_BAUD)
-
+        #setup Bedmapper
+        self.bedmapper = Bedmapper()
+           
+        #initialise swarm
+        self.swarm = Broodswarm(BROOD_IDS)
 
     #start PD , open port
     def start(self):
@@ -61,9 +69,6 @@ class SwampbedDirector():
         if not self.panellink.open():
             print("[SWAMPBEDDIRECTOR] MOTHER Panel Port Not Open")
             return False      
-           
-        #initialise swarm
-        self.swarm = Broodswarm(BROOD_IDS)
 
 
         #after everything has been iniitialised
@@ -72,15 +77,16 @@ class SwampbedDirector():
 
         return True
     
-    def tick(self):
+    def tick(self, now):
+        now = time.monotonic()
         time.sleep(0.1)
 
-        self._read()
-        # self._decide()
-        # self._send()
+        self._read(now)
+        self._decide(now)
+        self._send()
 
     #reads incoming frames
-    def _read(self):
+    def _read(self, now):
         try:
 
             frames = self.buglink.poll()
@@ -94,13 +100,11 @@ class SwampbedDirector():
             #map to cicada
             for frame in frames:
 
-                now = time.monotonic()
-
                 self.swarm.update(frame , now) 
 
                 bugId = frame['id']            
-                
-                print(f"[SWAMPBEDDIRECTOR] Current Updated Cicada: {self.swarm.broodlings[bugId]}")
+
+                print(f"[SWAMPBEDDIRECTOR] Current Updated Cicada: BUGID : {bugId} - {self.swarm.broodlings[bugId]}")
 
   
         except Exception as e:
@@ -108,13 +112,35 @@ class SwampbedDirector():
 
     
     #main logic of what incoming data means
-    def _decide(self):
+    def _decide(self , now):
+
+        #continuous mapping
+        for_decision = {}
+
+        for name in SWAMPBED_PARAMS_SETTINGS:
+            method = getattr(self.swarm , name)
+            for_decision[name] = method(now)
+
+
+
+        print(for_decision)
+
+        #to updates
+        self.bedmapper.update(for_decision)
+ 
+
+        #events 
+
         print("[SWAMPBEDDIRECTOR] DECIDING WHAT TO DO WITH VALUE")
 
     #send out commands . values to mothers 
     def _send(self):
+        #send 
 
-        print("[SWAMPBEDDIRECTOR] SENDING VALUE")
+        for name,value in self.bedmapper.bedvalues.items():
+            self.puredatabed.send(f"BED_PREFIX/{name}" , value)
+        
+        print(f"[SWAMPBEDDIRECTOR] SENDING NAME: {name} , VALUE: {value}")
 
     def stop(self):
         #stop puredata - [MIGHT NOT BE STOPPING IT PROPERLY]
