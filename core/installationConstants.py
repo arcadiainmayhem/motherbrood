@@ -4,7 +4,7 @@ import platform
 
 #dev mode on Windows , live on Linunx
 DEV_MODE =  platform.system() != "Linux"
-LAUNCH_PD = not DEV_MODE 
+LAUNCH_PD = not DEV_MODE  #true if on PI
 
 #installation constants
 

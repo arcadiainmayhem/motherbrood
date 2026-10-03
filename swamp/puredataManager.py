@@ -52,6 +52,7 @@ class PuredataManager:
                 PD_BINARY,"-nogui", "-alsa", '-noadc',
                 "-audiooutdev", str(self.audio_device) ,"-channels","2","-r","44100", 
                 "-path", PD_EXTERNALS_PATH,
+                "-path", PD_EXTERNALS_PARENT,
                 "-lib",  "else",
                 self.patch_path
             ]
