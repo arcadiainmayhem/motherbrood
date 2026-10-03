@@ -99,7 +99,7 @@ class SwampbedDirector():
             if not frames:
                 return 
 
-            print(f"[SWAMPBEDDIRECTOR] Frames: ",frames, ".There are ",self.buglink.droppedFrames, " Dropped Frames: ")       
+            #print(f"[SWAMPBEDDIRECTOR] Frames: ",frames, ".There are ",self.buglink.droppedFrames, " Dropped Frames: ")       
 
 
             #map to cicada
@@ -109,7 +109,8 @@ class SwampbedDirector():
 
                 bugId = frame['id']            
 
-                print(f"[SWAMPBEDDIRECTOR] Current Updated Cicada: BUGID : {bugId} - {self.swarm.broodlings[bugId]}")
+                #print(f"[SWAMPBEDDIRECTOR] Current Updated Cicada: BUGID : {bugId} - {self.swarm.broodlings[bugId]}")
+                print(f"[SWAMPBEDDIRECTOR] Current Cicadas: BUGID : {bugId} - {self.swarm.broodlings}")
 
   
         except Exception as e:
@@ -128,7 +129,7 @@ class SwampbedDirector():
 
 
 
-        print(for_decision)
+        #print(for_decision)
 
         #to updates
         self.bedmapper.update(for_decision)
@@ -136,7 +137,7 @@ class SwampbedDirector():
 
         #events 
 
-        print("[SWAMPBEDDIRECTOR] DECIDING WHAT TO DO WITH VALUE")
+        #print("[SWAMPBEDDIRECTOR] DECIDING WHAT TO DO WITH VALUE")
 
     #send out commands . values to mothers 
     def _send(self):
