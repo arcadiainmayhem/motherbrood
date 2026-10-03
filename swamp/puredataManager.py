@@ -33,7 +33,7 @@ class PuredataManager:
             self.osc_client = SimpleUDPClient(WINDOWS_TARGET_IP,osc_port)
         else:
 
-            self.osc_client = SimpleUDPClient(OSC_TARGET_IP,osc_port)
+            self.osc_client = SimpleUDPClient(WINDOWS_TARGET_IP,osc_port)
 
     #start swampbed - puredata
     #have to run the patch FROM the console to start + turn on DSP 
