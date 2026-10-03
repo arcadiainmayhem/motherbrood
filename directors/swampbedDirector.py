@@ -144,9 +144,9 @@ class SwampbedDirector():
         #send 
 
         for name,value in self.bedmapper.bedvalues.items():
-            self.puredatabed.send(f"BED_PREFIX{name}" , value)
+            self.puredatabed.send(f"/bed/{name}" , value)
         
-        print(f"[SWAMPBEDDIRECTOR] SENDING NAME: {name} , VALUE: {value}")
+        print(f"[SWAMPBEDDIRECTOR] SENDING ADDRESS: {name} , VALUE: {value}")
 
     def stop(self):
         #stop puredata - [MIGHT NOT BE STOPPING IT PROPERLY]
