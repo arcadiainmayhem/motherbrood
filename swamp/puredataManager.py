@@ -2,6 +2,7 @@
 import subprocess , time
 from pathlib import Path
 from core.installationConstants import *
+from hardware.hardwareConstants import *
 from pythonosc.udp_client import SimpleUDPClient
 
 LOOPBACK_IP = "127.0.0.1"
