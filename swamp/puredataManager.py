@@ -3,7 +3,7 @@ import subprocess , time
 from pathlib import Path
 from core.installationConstants import *
 from pythonosc.udp_client import SimpleUDPClient
-from hardware.hardwareConstants import PD_AUDIO_DEVICE_NAME , PD_BINARY, PD_EXTERNALS_PATH
+
 LOOPBACK_IP = "127.0.0.1"
 
 class PuredataManager:
@@ -38,15 +38,15 @@ class PuredataManager:
         if DEV_MODE:
             print("[PUREDATAMANAGER] DEV MODE - Assuming Plugdata is open")
             return True
-
-        #configuration of PD 
-        pdconfiguration = [
-            PD_BINARY,"-nogui", "-alsa", '-noadc',
-            "-audiooutdev", str(self.audio_device) ,"-channels","2","-r","44100", 
-            "-path", PD_EXTERNALS_PATH,
-            "-lib",  "else",
-            self.patch_path
-        ]
+        else:
+            #configuration of PD 
+            pdconfiguration = [
+                PD_BINARY,"-nogui", "-alsa", '-noadc',
+                "-audiooutdev", str(self.audio_device) ,"-channels","2","-r","44100", 
+                "-path", PD_EXTERNALS_PATH,
+                "-lib",  "else",
+                self.patch_path
+            ]
 
         try:
             #starts another program - tetlls OS to launch it
@@ -97,6 +97,10 @@ class PuredataManager:
 
     def _find_audio_device(self):
 
+        if DEV_MODE:
+            print("[PUREDATAMANAGER] DEV MODE - Audio Device is None")
+            return None
+        
         result = subprocess.run(
             [PD_BINARY , "-nogui","-alsa","-listdev","-send","pd quit"],
             capture_output=True,

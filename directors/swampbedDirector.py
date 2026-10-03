@@ -13,6 +13,8 @@ from swamp.bed.bedmapper import Bedmapper
 from swamp.cicadaConstants import BROOD_IDS
 
 from swamp.bed.swampbedConstants import SWAMPBED_PARAMS_SETTINGS , BED_PREFIX
+
+from core.installationConstants import DEV_MODE
 from hardware.hardwareConstants import MOTHER_PORT,MOTHER_BAUD , MOTHER_PANEL_PORT
 
 
@@ -53,29 +55,33 @@ class SwampbedDirector():
     #start PD , open port
     def start(self):
         #start puredata 
-       
 
-        if not self.puredatabed.start():
-            print("[SWAMPBEDDIRECTOR] Puredata Not Started")
-            return False
-
-
-        #start MOTHER PORT link
-        if not self.buglink.open():
-            print("[SWAMPBEDDIRECTOR] MOTHER Port Not Open")
-            return False
-
-    
-        if not self.panellink.open():
-            print("[SWAMPBEDDIRECTOR] MOTHER Panel Port Not Open")
-            return False      
+        if DEV_MODE:
+            print ("[SWAMPBEDDIRECTOR] Starting in DEVMODE")
+            return True
+        
+        else:
+            if not self.puredatabed.start():
+                print("[SWAMPBEDDIRECTOR] Puredata Not Started")
+                return False
 
 
-        #after everything has been iniitialised
-        self.isSwampActive = True
-        print("[SWAMPBEDDIRECTOR] PUREDATA , MOTHER PORT , PANEL PORT - Everything Started Successfully")
+            #start MOTHER PORT link
+            if not self.buglink.open():
+                print("[SWAMPBEDDIRECTOR] MOTHER Port Not Open")
+                return False
 
-        return True
+        
+            if not self.panellink.open():
+                print("[SWAMPBEDDIRECTOR] MOTHER Panel Port Not Open")
+                return False      
+
+
+            #after everything has been iniitialised
+            self.isSwampActive = True
+            print("[SWAMPBEDDIRECTOR] PUREDATA , MOTHER PORT , PANEL PORT - Everything Started Successfully")
+
+            return True
     
     def tick(self, now):
         now = time.monotonic()

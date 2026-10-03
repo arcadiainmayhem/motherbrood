@@ -1,8 +1,9 @@
 
 import platform
+
+
 #dev mode on Windows , live on Linunx
 DEV_MODE =  platform.system() != "Linux"
-
 
 
 #installation constants
@@ -16,6 +17,5 @@ AUDIOCHANNEL = "1"
 
 
 
-#tick rate - time rate
 
 
