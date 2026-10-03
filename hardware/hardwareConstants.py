@@ -26,7 +26,9 @@ MOTHER_BAUD = 115200
 PI_RX = 15
 PI_TX = 14
 
-
+OSC_TARGET_IP = "127.0.0.1"
+#for troubleshooting
+WINDOWS_TARGET_IP = "192.168.1.47" 
 
 
 ESP_MAC_ADDR = {}

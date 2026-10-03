@@ -5,7 +5,7 @@ from core.installationConstants import *
 from hardware.hardwareConstants import *
 from pythonosc.udp_client import SimpleUDPClient
 
-LOOPBACK_IP = "127.0.0.1"
+
 
 class PuredataManager:
 
@@ -29,19 +29,28 @@ class PuredataManager:
         self.process = None
 
         #start Client
-        self.osc_client = SimpleUDPClient(LOOPBACK_IP,osc_port)
+        if DEV_MODE:
+            self.osc_client = SimpleUDPClient(WINDOWS_TARGET_IP,osc_port)
+        else:
 
+            self.osc_client = SimpleUDPClient(OSC_TARGET_IP,osc_port)
 
     #start swampbed - puredata
     #have to run the patch FROM the console to start + turn on DSP 
     def start(self):
 
+        if not LAUNCH_PD:
+            print("[PUREDATAMANGER] DEV MODE - PD NOT OPEN ")
+            return True
+    
         if DEV_MODE:
             print("[PUREDATAMANAGER] DEV MODE - Assuming Plugdata is open")
-            return True
-        else:
-            #configuration of PD 
-            pdconfiguration = [
+            
+
+        
+        
+        #configuration of PD 
+        pdconfiguration = [
                 PD_BINARY,"-nogui", "-alsa", '-noadc',
                 "-audiooutdev", str(self.audio_device) ,"-channels","2","-r","44100", 
                 "-path", PD_EXTERNALS_PATH,
@@ -97,11 +106,16 @@ class PuredataManager:
         return self.start()
 
     def _find_audio_device(self):
+        if not LAUNCH_PD:
+            print("[PUREDATAMANGER] DEV MODE - NO AUDIO DEVICE ")
+            return None
 
         if DEV_MODE:
             print("[PUREDATAMANAGER] DEV MODE - Audio Device is None")
+
             return None
-        
+
+        LAUNCH_PD = True
         result = subprocess.run(
             [PD_BINARY , "-nogui","-alsa","-listdev","-send","pd quit"],
             capture_output=True,
