@@ -14,7 +14,7 @@ SWAMPBED_PARAMS_SETTINGS = {
 #swampbed constants
 
 
-BED_PREFIX = "/bed"
+BED_PREFIX = "/bed/"
 
 
 BED_OSC_PORT = 9000
