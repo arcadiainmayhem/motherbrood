@@ -1,5 +1,6 @@
 
 from directors.swampbedDirector import SwampbedDirector
+import time
 
 def main():
 
@@ -16,8 +17,9 @@ def main():
         print("[MAIN] Swampbed Started Successfully ")     
 
         while True:
-            
-            swampbed.tick()           
+
+            now = time.monotonic()
+            swampbed.tick(now)           
 
 
     except KeyboardInterrupt:

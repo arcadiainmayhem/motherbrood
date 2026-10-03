@@ -84,7 +84,6 @@ class SwampbedDirector():
             return True
     
     def tick(self, now):
-        now = time.monotonic()
         time.sleep(0.1)
 
         self._read(now)
