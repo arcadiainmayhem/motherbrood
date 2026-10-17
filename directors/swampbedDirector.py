@@ -110,7 +110,7 @@ class SwampbedDirector():
 
             #map to cicada
             for frame in frames:
-
+                print(frame)
                 self.swarm.update(frame , now) 
 
                 bugId = frame['id']            
@@ -150,9 +150,6 @@ class SwampbedDirector():
 
 
 
-        #print(for_decision)
-        print(f"[SWAMPBEDDIRECTOR] Calling Count now : {self.swarm.calling_count(now)}")
-        
         #to updates
         self.bedmapper.update(for_decision)
  
