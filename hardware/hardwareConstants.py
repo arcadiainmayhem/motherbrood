@@ -13,8 +13,8 @@ else:
     PD_AUDIO_DEVICE_NAME = "snd_rpi_hifiberry_dacplus (plug-in)"
     PD_EXTERNALS_PATH = "/home/arcadia/Documents/else"
     PD_EXTERNALS_PARENT = "/home/arcadia/Documents"
-    MOTHER_PANEL_PORT = "/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0" #ESP32 38 PIN
-    MOTHER_PORT = "/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_30:ED:A0:65:9C:D0-if00" #ESP32 C3 SUPERMINI    
+    MOTHER_PANEL_PORT = "/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0" #ESP32 38 PIN - PANEL
+    MOTHER_PORT = "/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_30:ED:A0:65:9C:D0-if00" #ESP32 C3 SUPERMINI  - MOTHER
 
 #UART COMMS
 UART_DEVICE = "/dev/serial0"

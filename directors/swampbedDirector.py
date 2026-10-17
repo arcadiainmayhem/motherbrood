@@ -102,13 +102,12 @@ class SwampbedDirector():
         try:
 
             frames = self.buglink.poll()
-            panel_frames = self.panellink.poll()
+     
 
             if not frames:
                 return 
 
-            if not panel_frames:
-                return
+
             #print(f"[SWAMPBEDDIRECTOR] Frames: ",frames, ".There are ",self.buglink.droppedFrames, " Dropped Frames: ")       
 
 
@@ -120,20 +119,31 @@ class SwampbedDirector():
                 bugId = frame['id']            
 
                 #print(f"[SWAMPBEDDIRECTOR] Current Updated Cicada: BUGID : {bugId} - {self.swarm.broodlings[bugId]}")
+
+                
                 print(f"[SWAMPBEDDIRECTOR] Current Cicadas: BUGID : {bugId} - {self.swarm.broodlings}")
-
-            #map onto panel 
-            for frame in panel_frames:
-                self.motherPanel.update(frame)
-                self.panelDirector.update()
-
-                print(f"[SWAMPBEDDIRECTOR] Current Pot + Button Reads: {frame}")
 
         except Exception as e:
             print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
 
-    
-    #main logic of what incoming data means
+    def _read_panel(self,now):
+        try:
+            panel_frames = self.panellink.poll()
+
+
+            if not panel_frames:
+                return
+
+            for frame in panel_frames:
+                self.motherPanel.update(frame)
+                self.panelDirector.update()
+
+
+                print(f"[SWAMPBEDDIRECTOR] Current Pot + Button Reads: {frame}")
+
+
+        except Exception as e:
+            print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
     def _decide(self , now):
 
         #continuous mapping
@@ -166,13 +176,15 @@ class SwampbedDirector():
 
         #send for panels - pots        
         for name,value in self.motherPanel.potValues.items():
-            self.puredatabed.send(f"PANEL_PREFIX{name}" , value)
+            self.puredatabed.send(f"{PANEL_PREFIX}{name}" , value)
+
+            print(f"[SWAMPBEDDIRECTOR] SENDING ADDRESS: {name} , VALUE: {value}")
 
         #send for panels - butotns      
         for name, value in self.motherPanel.buttonValues.items():
             self.puredatabed.send(f"{PANEL_PREFIX}{name}" , value)
-        
-        print(f"[SWAMPBEDDIRECTOR] SENDING ADDRESS: {name} , VALUE: {value}")
+
+            print(f"[SWAMPBEDDIRECTOR] SENDING ADDRESS: {name} , VALUE: {value}")
 
     def stop(self):
         #stop puredata - [MIGHT NOT BE STOPPING IT PROPERLY]
