@@ -93,20 +93,17 @@ class SwampbedDirector():
     def tick(self, now):
         time.sleep(0.1)
 
-        self._read(now)
+        self._read_bugframes(now)
+        self._read_panelframes(now)
         self._decide(now)
         self._send()
 
     #reads incoming frames
-    def _read(self, now):
+    def _read_bugframes(self, now):
         try:
 
             frames = self.buglink.poll()
      
-
-            if not frames:
-                return 
-
 
             #print(f"[SWAMPBEDDIRECTOR] Frames: ",frames, ".There are ",self.buglink.droppedFrames, " Dropped Frames: ")       
 
@@ -126,13 +123,10 @@ class SwampbedDirector():
         except Exception as e:
             print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
 
-    def _read_panel(self,now):
+    def _read_panelframes(self,now):
         try:
             panel_frames = self.panellink.poll()
 
-
-            if not panel_frames:
-                return
 
             for frame in panel_frames:
                 self.motherPanel.update(frame)
@@ -144,6 +138,7 @@ class SwampbedDirector():
 
         except Exception as e:
             print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
+
     def _decide(self , now):
 
         #continuous mapping
@@ -156,7 +151,8 @@ class SwampbedDirector():
 
 
         #print(for_decision)
-
+        print(f"[SWAMPBEDDIRECTOR] Calling Count now : {self.swarm.calling_count(now)}")
+        
         #to updates
         self.bedmapper.update(for_decision)
  

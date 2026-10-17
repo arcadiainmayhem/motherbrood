@@ -33,7 +33,7 @@ class Bedmapper:
 
             #fresh values coming in
             amount = descriptors[name] 
-
+            
 
             current_value = self.bedvalues[name]
             low = settings["low"]
