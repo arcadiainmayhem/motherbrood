@@ -20,9 +20,9 @@ BUG_FRAME = {
 }
 
 CICADASTATES = {
-    "STATE_RISING" : "0" ,
-    "STATE_CALLING" : "1",
-    "STATE_REFRACTORY" : "2"
+    "STATE_RISING" : 0 ,
+    "STATE_CALLING" : 1,
+    "STATE_REFRACTORY" : 2
 }
 
 #NUMBER OF CICADAS - 10
