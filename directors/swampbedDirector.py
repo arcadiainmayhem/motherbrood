@@ -14,7 +14,7 @@ from swamp.bed.bedmapper import Bedmapper
 
 from swamp.cicadaConstants import BROOD_IDS
 
-from swamp.bed.swampbedConstants import SWAMPBED_PARAMS_SETTINGS , BED_PREFIX
+from swamp.bed.swampbedConstants import SWAMPBED_PARAMS_SETTINGS , BED_PREFIX , PANEL_PREFIX
 
 from core.installationConstants import DEV_MODE
 from hardware.hardwareConstants import MOTHER_PORT,MOTHER_BAUD , MOTHER_PANEL_PORT
@@ -157,13 +157,20 @@ class SwampbedDirector():
 
     #send out commands . values to mothers 
     def _send(self):
-        #send 
+        #send for bed mapper
 
         for name,value in self.bedmapper.bedvalues.items():
             self.puredatabed.send(f"{BED_PREFIX}{name}" , value)
-            
-        for name,value in self.motherPanel.panelvalues.items():
+
+
+
+        #send for panels - pots        
+        for name,value in self.motherPanel.potValues.items():
             self.puredatabed.send(f"PANEL_PREFIX{name}" , value)
+
+        #send for panels - butotns      
+        for name, value in self.motherPanel.buttonValues.items():
+            self.puredatabed.send(f"{PANEL_PREFIX}{name}" , value)
         
         print(f"[SWAMPBEDDIRECTOR] SENDING ADDRESS: {name} , VALUE: {value}")
 
