@@ -2,7 +2,7 @@
 import time
 from core.installationConstants import DEV_MODE
 import serial
-from swamp.panelConstants import PANEL_FRAME
+from panel.panelConstants import PANEL_FRAME
 
 
 
@@ -24,6 +24,9 @@ class PanellinkManager:
     #open serial port     
     def open(self):
         try:
+            self.ser.dtr - False
+            self.ser.rts = False
+
             self.ser.open()
 
             return True
@@ -51,6 +54,8 @@ class PanellinkManager:
         lines = self._buf.split(b"\n")
         self._buf = lines.pop() #incomplete tail
 
+        if len(self._buf) > 1024:
+            self._buf = b""
 
         frames = []
         for line in lines:
@@ -70,7 +75,7 @@ class PanellinkManager:
             frame = {}
 
             #decode byte to string
-            decoded = line.decode('utf-8').strip()
+            decoded = line.decode('utf-8', errors='ignore')
             parts = decoded.split(",") #split removes commas
 
 
@@ -78,7 +83,7 @@ class PanellinkManager:
             if parts[0] != "P":
                 return None
             
-            if len(parts) - 1 < len(PANEL_FRAME):
+            if len(parts) - 1 != len(PANEL_FRAME):
                 return None
             
             for name, raw in zip(PANEL_FRAME , parts[1:]):

@@ -15,7 +15,7 @@ SWAMPBED_PARAMS_SETTINGS = {
 
 
 BED_PREFIX = "/bed/"
-
+PANEL_PREFIX = "/panel/"
 
 BED_OSC_PORT = 9000
 

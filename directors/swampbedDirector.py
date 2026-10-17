@@ -2,6 +2,8 @@
 from swamp.puredataManager import PuredataManager
 from swamp.buglinkManager import BugLinkManager
 from swamp.panellinkManager import PanellinkManager
+from panel.motherpanel import MotherPanel
+from directors.panelDirector import PanelDirector
 
 from swamp.bed.swampbedConstants import BED_OSC_PORT
 from swamp.patches.patchlibrary import TEST_PATCH
@@ -48,7 +50,12 @@ class SwampbedDirector():
         self.panellink = PanellinkManager(MOTHER_PANEL_PORT, MOTHER_BAUD)
         #setup Bedmapper
         self.bedmapper = Bedmapper()
-           
+
+        #setup motherpanel
+        self.motherPanel = MotherPanel()
+        #setup motherpanel director
+        self.panelDirector = PanelDirector(self.motherPanel , self.puredatabed)
+
         #initialise swarm
         self.swarm = Broodswarm(BROOD_IDS)
 
@@ -95,10 +102,13 @@ class SwampbedDirector():
         try:
 
             frames = self.buglink.poll()
+            panel_frames = self.panellink.poll()
 
             if not frames:
                 return 
 
+            if not panel_frames:
+                return
             #print(f"[SWAMPBEDDIRECTOR] Frames: ",frames, ".There are ",self.buglink.droppedFrames, " Dropped Frames: ")       
 
 
@@ -112,7 +122,13 @@ class SwampbedDirector():
                 #print(f"[SWAMPBEDDIRECTOR] Current Updated Cicada: BUGID : {bugId} - {self.swarm.broodlings[bugId]}")
                 print(f"[SWAMPBEDDIRECTOR] Current Cicadas: BUGID : {bugId} - {self.swarm.broodlings}")
 
-  
+            #map onto panel 
+            for frame in panel_frames:
+                self.motherPanel.update(frame)
+                self.panelDirector.update()
+
+                print(f"[SWAMPBEDDIRECTOR] Current Pot + Button Reads: {frame}")
+
         except Exception as e:
             print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
 
@@ -144,7 +160,10 @@ class SwampbedDirector():
         #send 
 
         for name,value in self.bedmapper.bedvalues.items():
-            self.puredatabed.send(f"/bed/{name}" , value)
+            self.puredatabed.send(f"{BED_PREFIX}{name}" , value)
+            
+        for name,value in self.panel.panelvalues.items():
+            self.puredatabed.send(f"PANEL_PREFIX{name}" , value)
         
         print(f"[SWAMPBEDDIRECTOR] SENDING ADDRESS: {name} , VALUE: {value}")
 
