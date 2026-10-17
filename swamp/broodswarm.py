@@ -1,4 +1,4 @@
-from swamp.cicadaConstants import BROOD_TIMEOUT , BUG_FRAME , CICADASTATES
+from swamp.cicadaConstants import BROOD_TIMEOUT , BUG_FRAME , CICADASTATES , CALLING_HOLD
 
 class Broodswarm:
 
@@ -43,6 +43,10 @@ class Broodswarm:
         #time specific
         row["last_seen"] = now
 
+
+        if  row["state"] == CICADASTATES["STATE_CALLING"]:
+            row["last_calling"] = now
+
     #return values of broodlings
 
     def seen_recently(self, brood_id , now):
@@ -62,17 +66,14 @@ class Broodswarm:
     #what else would director ask for
 
 
-    def calling_count(self , now):
-
+    def calling_count(self, now):
         count = 0
-        
         for row in self._active_bugs(now):
-            print("state:" , repr(row["state"]), "calling const :", repr(CICADASTATES["STATE_CALLING"]))
-            if (row["state"] == CICADASTATES["STATE_CALLING"]) : #states arrive as int rising -calling - refractory 
+            t = row.get("last_calling")
+            if t is not None and (now - t) < CALLING_HOLD:
                 count += 1
-
         return count
-
+    
     def mean_arousal(self , now):
         arousal = 0
         
