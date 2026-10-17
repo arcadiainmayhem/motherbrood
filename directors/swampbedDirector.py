@@ -162,7 +162,7 @@ class SwampbedDirector():
         for name,value in self.bedmapper.bedvalues.items():
             self.puredatabed.send(f"{BED_PREFIX}{name}" , value)
             
-        for name,value in self.panel.panelvalues.items():
+        for name,value in self.panellink.panelvalues.items():
             self.puredatabed.send(f"PANEL_PREFIX{name}" , value)
         
         print(f"[SWAMPBEDDIRECTOR] SENDING ADDRESS: {name} , VALUE: {value}")
