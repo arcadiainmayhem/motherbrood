@@ -42,6 +42,8 @@ class SwampbedDirector():
         #check connections
 
 
+        #setup motherpanel
+        self.motherPanel = MotherPanel()
         #setup puredatamanager
         self.puredatabed = PuredataManager(TEST_PATCH , BED_OSC_PORT)
         #setup buglink to mother 
@@ -51,8 +53,6 @@ class SwampbedDirector():
         #setup Bedmapper
         self.bedmapper = Bedmapper()
 
-        #setup motherpanel
-        self.motherPanel = MotherPanel()
         #setup motherpanel director
         self.panelDirector = PanelDirector(self.motherPanel , self.puredatabed)
 
@@ -162,7 +162,7 @@ class SwampbedDirector():
         for name,value in self.bedmapper.bedvalues.items():
             self.puredatabed.send(f"{BED_PREFIX}{name}" , value)
             
-        for name,value in self.panelDirector.panelvalues.items():
+        for name,value in self.motherPanel.panelvalues.items():
             self.puredatabed.send(f"PANEL_PREFIX{name}" , value)
         
         print(f"[SWAMPBEDDIRECTOR] SENDING ADDRESS: {name} , VALUE: {value}")
