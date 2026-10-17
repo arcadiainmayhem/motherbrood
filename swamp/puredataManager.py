@@ -1,5 +1,6 @@
 
 import subprocess , time
+import threading
 from pathlib import Path
 from core.installationConstants import *
 from hardware.hardwareConstants import *
@@ -35,6 +36,10 @@ class PuredataManager:
 
             self.osc_client = SimpleUDPClient(OSC_TARGET_IP,osc_port)
 
+
+
+    
+
     #start swampbed - puredata
     #have to run the patch FROM the console to start + turn on DSP 
     def start(self):
@@ -65,13 +70,20 @@ class PuredataManager:
 
   
             if self.process.poll() is not None:
-                #died on startup
+                #died on startup    
                 errors = self.process.stderr.read().decode() #.read() returns bytes and .decode() turns it into string
                 print(f"[PUREDATAMANAGER] PD Died : {errors}")
             
                 self.process = None
                 return False
             #process is running
+
+
+
+            #start thread to drain stderr
+            self._stderr_thread = threading.Thread(target=self._drain_stderr, daemon = True)
+            self._stderr_thread.start()
+
             return True
         
         except FileNotFoundError as e:
@@ -92,6 +104,7 @@ class PuredataManager:
 
         try:
             self.process.wait(timeout = 3)
+            self._stderr_thread(timeout = 1)
 
         except subprocess.TimeoutExpired:
 
@@ -134,7 +147,10 @@ class PuredataManager:
                 final = result[0].strip()
                 return int(final)
 
-
+    def _drain_stderr(self):
+        lines = self.process.stderr #errors
+        for line in lines:
+            pass
 
     def is_running(self):
         return self.process is not None and self.process.poll() is None
