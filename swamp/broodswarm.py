@@ -67,6 +67,7 @@ class Broodswarm:
         count = 0
         
         for row in self._active_bugs(now):
+            print("state:" , repr(row["state"]), "calling const :", repr(CICADASTATES["STATE_CALLING"]))
             if (row["state"] == CICADASTATES["STATE_CALLING"]) : #states arrive as int rising -calling - refractory 
                 count += 1
 
