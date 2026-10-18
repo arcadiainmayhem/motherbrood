@@ -8,6 +8,7 @@ from directors.panelDirector import PanelDirector
 from swamp.bed.swampbedConstants import BED_OSC_PORT , PANEL_OSC_PORT
 from swamp.patches.patchlibrary import TEST_PATCH
 
+import traceback
 
 from swamp.broodswarm import Broodswarm
 from swamp.bed.bedmapper import Bedmapper
@@ -121,12 +122,11 @@ class SwampbedDirector():
                 bugId = frame['id']            
 
                 #print(f"[SWAMPBEDDIRECTOR] Current Updated Cicada: BUGID : {bugId} - {self.swarm.broodlings[bugId]}")
-
-                
                 #print(f"[SWAMPBEDDIRECTOR] Current Cicadas: BUGID : {bugId} - {self.swarm.broodlings}")
 
         except Exception as e:
             print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
+            traceback.print_exc()
 
     def _read_panel_frames(self,now):
         try:
@@ -134,7 +134,6 @@ class SwampbedDirector():
 
 
             for frame in panel_frames:
-                print(frame)
                 self.motherPanel.update(panel_frames)
                 self.panelDirector.update()
 
@@ -144,6 +143,7 @@ class SwampbedDirector():
 
         except Exception as e:
             print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
+            traceback.print_exc()
 
     def _decide(self , now):
 
@@ -171,13 +171,6 @@ class SwampbedDirector():
         for name,value in self.bedmapper.bedvalues.items():
             self.puredatabed.send(f"{BED_PREFIX}{name}" , value)
 
-
-
-        # #send for panels - pots        
-        # for name,value in self.motherPanel.potValues.items():
-        #     self.puredatabed.send(f"{PANEL_PREFIX}{name}" , value)
-
-        #     print(f"[SWAMPBEDDIRECTOR] SENDING ADDRESS: {name} , VALUE: {value}")
 
 
 

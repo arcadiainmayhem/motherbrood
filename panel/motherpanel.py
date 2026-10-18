@@ -27,7 +27,7 @@ class MotherPanel():
 
         #check incoming frame
         
-        #store pot values
+        #store pot values from incoming frame
         for name in POT_MASTERLIST:
             self.potValues[name] = frame[name]
         #store button values
@@ -36,7 +36,6 @@ class MotherPanel():
         #store packet count 
         self.panelPeripheryValues["packetCount"] = frame["packetCount"]
 
-        print(frame)
         
 
     def button_changes(self):
