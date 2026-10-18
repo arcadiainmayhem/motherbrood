@@ -2,10 +2,14 @@
 from enum import Enum
 from dataclasses import dataclass
 
+
+PANEL_POT_COUNT = 6
+PANEL_BUTTON_COUNT = 4
+
 class DESTINATION_PLACES(Enum):
     PUREDATA = 1
     CICADAS = 2
-    FOR_Pi = 3
+    FOR_PI = 3
 
 
 class BUTTON_TYPES(Enum):
@@ -69,12 +73,6 @@ PANEL_FRAME = {
     "btn2" : int,
     "btn3" : int,
     "btn4" : int,
-    "btn5" : int,
-    "btn6" : int,
-    "btn7" : int,
-    "btn8" : int,
-    "btn9" : int,
-    "btn10" : int,
 
     # #group
 
