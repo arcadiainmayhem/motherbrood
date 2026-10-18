@@ -99,7 +99,7 @@ class SwampbedDirector():
 
         self._read_bug_frames(now)
         self._read_panel_frames(now)
-        
+
         self._decide(now)
         self._send()
 
@@ -134,7 +134,7 @@ class SwampbedDirector():
 
 
             for frame in panel_frames:
-                self.motherPanel.update(frame)
+                self.motherPanel.update(panel_frames)
                 self.panelDirector.update()
 
 
