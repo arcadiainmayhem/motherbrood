@@ -97,13 +97,14 @@ class SwampbedDirector():
     def tick(self, now):
         time.sleep(0.1)
 
-        self._read_bugframes(now)
-        self._read_panelframes(now)
+        self._read_bug_frames(now)
+        self._read_panel_frames(now)
+        
         self._decide(now)
         self._send()
 
     #reads incoming frames
-    def _read_bugframes(self, now):
+    def _read_bug_frames(self, now):
         try:
 
             frames = self.buglink.poll()
