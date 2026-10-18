@@ -51,7 +51,7 @@ class Bedmapper:
 
             self.bedvalues[name] = smoothed_value
 
-            print("smoothed_value: ", name , smoothed_value)
+            #print("smoothed_value: ", name , smoothed_value)
                 
 
 

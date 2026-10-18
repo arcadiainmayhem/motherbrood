@@ -36,6 +36,7 @@ class MotherPanel():
         #store packet count 
         self.panelPeripheryValues["packetCount"] = frame["packetCount"]
 
+        print(frame)
         
 
     def button_changes(self):
