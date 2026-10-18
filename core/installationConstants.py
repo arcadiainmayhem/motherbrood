@@ -4,7 +4,6 @@ import platform
 
 #dev mode on Windows , live on Linunx
 DEV_MODE =  platform.system() != "Linux"
-LAUNCH_PD = not DEV_MODE  #true if on PI
 
 PI_REMOTE = {
     "launch_pd" : False,
@@ -13,6 +12,7 @@ PI_REMOTE = {
     "osc_target_ip" : "192.168.1.47"
 }
 
+LAUNCH_PD = False #true if on PI
 OPEN_PANEL_SERIAL = True
 OPEN_BUG_SERIAL = True
 
