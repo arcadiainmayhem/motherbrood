@@ -68,7 +68,7 @@ class PanelDirector():
                   
     def _send_destination(self , params, value):
         if params.destination == DESTINATION_PLACES.PUREDATA:
-            self.pureDataManager.send_panel(params.target,value)
+            self.pureDataManager.send_panel("/panel/level",value)
         elif params.destination == DESTINATION_PLACES.CICADAS:
             print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO CICADAS {params.target} , {value:.3f}")
         elif params.destination == DESTINATION_PLACES.FOR_PI:
