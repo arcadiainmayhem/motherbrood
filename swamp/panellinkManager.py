@@ -57,7 +57,7 @@ class PanellinkManager:
         
         if not OPEN_PANEL_SERIAL:
             print("[PANELLINKMANAGER] Serial Disabled - Returning Empty Frame")
-            return True
+            return []
         
         self._buf += self.ser.read(self.ser.in_waiting or 0)
         lines = self._buf.split(b"\n")
@@ -109,9 +109,6 @@ class PanellinkManager:
             print(f"[PANELLINKMANAGER] Error as : {e}")
             return None
 
-    def send(self):
-        
-        pass
 
     def is_connected(self):
         return self.ser is not None and self.ser.is_open
