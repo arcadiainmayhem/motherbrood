@@ -45,6 +45,9 @@ class PanelDirector():
 
             self._send_destination(params , clamped)
 
+            print(f"[PANELDIRECTOR] POT: {params.destination}")
+
+
 
         #---for buttons
         updated_buttons = self.motherPanel.button_changes()
@@ -60,7 +63,9 @@ class PanelDirector():
 
             self._send_destination(params , value)
 
-
+    
+            print(f"[PANELDIRECTOR] Button: {params.destination}")
+                  
     def _send_destination(self , params, value):
         if params.destination == DESTINATION_PLACES.PUREDATA:
             self.pureDataManager.send_panel(params.target,value)
