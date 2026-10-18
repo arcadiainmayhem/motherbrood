@@ -45,7 +45,7 @@ class PanelDirector():
 
             self._send_destination(params , clamped)
 
-            print(f"[PANELDIRECTOR] POT: {params.destination}")
+
 
 
 
@@ -64,11 +64,11 @@ class PanelDirector():
             self._send_destination(params , value)
 
     
-            print(f"[PANELDIRECTOR] Button: {params.destination}")
+
                   
     def _send_destination(self , params, value):
         if params.destination == DESTINATION_PLACES.PUREDATA:
-            self.pureDataManager.send_panel("/panel/level",value)
+            self.pureDataManager.send_panel(params.target,value)
         elif params.destination == DESTINATION_PLACES.CICADAS:
             print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO CICADAS {params.target} , {value:.3f}")
         elif params.destination == DESTINATION_PLACES.FOR_PI:
