@@ -36,7 +36,7 @@ class PuredataManager:
 
         #     self.osc_client = SimpleUDPClient(OSC_TARGET_IP,osc_port)
 
-        self.osc_client = SimpleUDPClient(OSC_TARGET_IP,osc_port)
+        self.osc_client = SimpleUDPClient(WINDOWS_TARGET_IP,osc_port)
 
 
      #start Client for panel
