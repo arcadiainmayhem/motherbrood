@@ -134,7 +134,7 @@ class SwampbedDirector():
 
 
             for frame in panel_frames:
-                self.motherPanel.update(panel_frames)
+                self.motherPanel.update(frame)
                 self.panelDirector.update()
 
 
