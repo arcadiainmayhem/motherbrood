@@ -115,7 +115,7 @@ class SwampbedDirector():
 
             #map to cicada
             for frame in frames:
-                print(frame)
+                #print(frame)
                 self.swarm.update(frame , now) 
 
                 bugId = frame['id']            
@@ -134,6 +134,7 @@ class SwampbedDirector():
 
 
             for frame in panel_frames:
+                print(frame)
                 self.motherPanel.update(panel_frames)
                 self.panelDirector.update()
 
