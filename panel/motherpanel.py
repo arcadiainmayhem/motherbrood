@@ -33,7 +33,7 @@ class MotherPanel():
         #store button values
         for name in BUTTON_MASTERLIST:
             self.buttonValues[name] = frame[name]  
-
+        #store packet count 
         self.panelPeripheryValues["packetCount"] = frame["packetCount"]
 
         

@@ -34,8 +34,8 @@ POT_DEADBAND = 0.005
 
 POT_MASTERLIST = {
 
-    "pot1" : PotParams("swampbed", DESTINATION_PLACES.PUREDATA, "/bed/level"),
-    "pot2" : PotParams("mean_arousal", DESTINATION_PLACES.PUREDATA, "/bed/mean_arousal"),
+    "pot1" : PotParams("level_test", DESTINATION_PLACES.PUREDATA, "/panel/level"),
+    "pot2" : PotParams("tone_test", DESTINATION_PLACES.PUREDATA, "/panel/tone"),
     "pot3" : None,
     "pot4" : None,
     "pot5" : None,
@@ -45,34 +45,12 @@ POT_MASTERLIST = {
 
 
 BUTTON_MASTERLIST = {
-    "btn1" : ButtonParams("swampbed" , DESTINATION_PLACES.PUREDATA, "/bed/level" , BUTTON_TYPES.MOMENTARY),
+    "btn1" : ButtonParams("hush_test" , DESTINATION_PLACES.PUREDATA, "/panel/hush" , BUTTON_TYPES.MOMENTARY),
     "btn2" : None,
     "btn3" : None,
 }    
 
-# POT_NAMES = {
-#     #pots - knobs
-#     "pot1" ,
-#     "pot2" ,
-#     "pot3" ,
-#     "pot4" ,
-#     "pot5" ,
-#     "pot6" ,
-# }
 
-# BUTTON_NAMES = {
-#     #buttons - 0 or 1
-#     "btn1",
-#     "btn2",
-#     "btn3",
-#     "btn4",
-#     "btn5",
-#     "btn6",
-#     "btn7",
-#     "btn8",
-#     "btn9",
-#     "btn10",    
-# }
 
 PANEL_FRAME = {
 

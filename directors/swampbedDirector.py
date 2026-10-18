@@ -5,7 +5,7 @@ from swamp.panellinkManager import PanellinkManager
 from panel.motherpanel import MotherPanel
 from directors.panelDirector import PanelDirector
 
-from swamp.bed.swampbedConstants import BED_OSC_PORT
+from swamp.bed.swampbedConstants import BED_OSC_PORT , PANEL_OSC_PORT
 from swamp.patches.patchlibrary import TEST_PATCH
 
 
@@ -45,7 +45,7 @@ class SwampbedDirector():
         #setup motherpanel
         self.motherPanel = MotherPanel()
         #setup puredatamanager
-        self.puredatabed = PuredataManager(TEST_PATCH , BED_OSC_PORT)
+        self.puredatabed = PuredataManager(TEST_PATCH , BED_OSC_PORT , PANEL_OSC_PORT)
         #setup buglink to mother 
         self.buglink = BugLinkManager( MOTHER_PORT , MOTHER_BAUD)
         #setup panellink 
@@ -63,32 +63,36 @@ class SwampbedDirector():
     def start(self):
         #start puredata 
 
-        if DEV_MODE:
-            print ("[SWAMPBEDDIRECTOR] Starting in DEVMODE")
-            return True
+        # if DEV_MODE:
+        #     print ("[SWAMPBEDDIRECTOR] Starting in DEVMODE")
+        #     return True
+
+        # self.puredatabed.start()
+        # self.buglink.open()
+        # self.panellink.open()
+   
+        if not self.puredatabed.start():
+            print("[SWAMPBEDDIRECTOR] Puredata Not Started")
+            return False
+
+
+         #start MOTHER PORT link
+        if not self.buglink.open():
+            print("[SWAMPBEDDIRECTOR] MOTHER Port Not Open")
+            return False
+
         
-        else:
-            if not self.puredatabed.start():
-                print("[SWAMPBEDDIRECTOR] Puredata Not Started")
-                return False
+        if not self.panellink.open():
+            print("[SWAMPBEDDIRECTOR] MOTHER Panel Port Not Open")
+            return False      
 
 
-            #start MOTHER PORT link
-            if not self.buglink.open():
-                print("[SWAMPBEDDIRECTOR] MOTHER Port Not Open")
-                return False
+        #after everything has been iniitialised
+        self.isSwampActive = True
 
-        
-            if not self.panellink.open():
-                print("[SWAMPBEDDIRECTOR] MOTHER Panel Port Not Open")
-                return False      
+        print("[SWAMPBEDDIRECTOR] PUREDATA , MOTHER PORT , PANEL PORT - Everything Started Successfully")
 
-
-            #after everything has been iniitialised
-            self.isSwampActive = True
-            print("[SWAMPBEDDIRECTOR] PUREDATA , MOTHER PORT , PANEL PORT - Everything Started Successfully")
-
-            return True
+        return True
     
     def tick(self, now):
         time.sleep(0.1)
@@ -118,12 +122,12 @@ class SwampbedDirector():
                 #print(f"[SWAMPBEDDIRECTOR] Current Updated Cicada: BUGID : {bugId} - {self.swarm.broodlings[bugId]}")
 
                 
-                print(f"[SWAMPBEDDIRECTOR] Current Cicadas: BUGID : {bugId} - {self.swarm.broodlings}")
+                #print(f"[SWAMPBEDDIRECTOR] Current Cicadas: BUGID : {bugId} - {self.swarm.broodlings}")
 
         except Exception as e:
             print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
 
-    def _read_panelframes(self,now):
+    def _read_panel_frames(self,now):
         try:
             panel_frames = self.panellink.poll()
 
@@ -167,17 +171,13 @@ class SwampbedDirector():
 
 
 
-        #send for panels - pots        
-        for name,value in self.motherPanel.potValues.items():
-            self.puredatabed.send(f"{PANEL_PREFIX}{name}" , value)
+        # #send for panels - pots        
+        # for name,value in self.motherPanel.potValues.items():
+        #     self.puredatabed.send(f"{PANEL_PREFIX}{name}" , value)
 
-            print(f"[SWAMPBEDDIRECTOR] SENDING ADDRESS: {name} , VALUE: {value}")
+        #     print(f"[SWAMPBEDDIRECTOR] SENDING ADDRESS: {name} , VALUE: {value}")
 
-        #send for panels - butotns      
-        for name, value in self.motherPanel.buttonValues.items():
-            self.puredatabed.send(f"{PANEL_PREFIX}{name}" , value)
 
-            print(f"[SWAMPBEDDIRECTOR] SENDING ADDRESS: {name} , VALUE: {value}")
 
     def stop(self):
         #stop puredata - [MIGHT NOT BE STOPPING IT PROPERLY]

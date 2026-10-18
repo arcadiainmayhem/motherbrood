@@ -2,6 +2,7 @@
 import time
 from core.installationConstants import DEV_MODE
 import serial
+from core.installationConstants import OPEN_PANEL_SERIAL
 from panel.panelConstants import PANEL_FRAME
 
 
@@ -27,6 +28,10 @@ class PanellinkManager:
             self.ser.dtr - False
             self.ser.rts = False
 
+            if not OPEN_PANEL_SERIAL:
+                print("[PANELLINKMANAGER] Serial Disabled")
+                return True
+            
             self.ser.open()
 
             return True
@@ -47,9 +52,13 @@ class PanellinkManager:
     #define where a frame ends
     def poll(self):
         #check and early return
-        if not  self.is_connected():
+        if not self.is_connected():
             return []
-
+        
+        if not OPEN_PANEL_SERIAL:
+            print("[PANELLINKMANAGER] Serial Disabled - Returning Empty Frame")
+            return True
+        
         self._buf += self.ser.read(self.ser.in_waiting or 0)
         lines = self._buf.split(b"\n")
         self._buf = lines.pop() #incomplete tail

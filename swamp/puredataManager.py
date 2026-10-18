@@ -12,7 +12,7 @@ class PuredataManager:
 
 
 
-    def __init__(self , patch_path , osc_port):
+    def __init__(self , patch_path , osc_port , panel_osc_port):
 
 
         self.patch_path = str(patch_path)
@@ -23,20 +23,30 @@ class PuredataManager:
 
         self.audio_device = self._find_audio_device()
 
-
+        self._stderr_thread = None
 
         self.osc_port = osc_port
 
         self.process = None
 
-        #start Client
-        if DEV_MODE:
-            self.osc_client = SimpleUDPClient(WINDOWS_TARGET_IP,osc_port)
-        else:
+        #start Client for bugs
+        # if DEV_MODE:
+        #     self.osc_client = SimpleUDPClient(WINDOWS_TARGET_IP,osc_port)
+        # else:
 
-            self.osc_client = SimpleUDPClient(OSC_TARGET_IP,osc_port)
+        #     self.osc_client = SimpleUDPClient(OSC_TARGET_IP,osc_port)
+
+        self.osc_client = SimpleUDPClient(OSC_TARGET_IP,osc_port)
 
 
+     #start Client for panel
+        # if DEV_MODE:
+        #     self.panel_osc_client = SimpleUDPClient(WINDOWS_TARGET_IP,panel_osc_port)
+        # else:
+
+        #     self.panel_osc_client = SimpleUDPClient(OSC_TARGET_IP,panel_osc_port)
+
+        self.panel_osc_client = SimpleUDPClient(OSC_TARGET_IP,panel_osc_port)
 
     
 
@@ -48,8 +58,8 @@ class PuredataManager:
             print("[PUREDATAMANGER] DEV MODE - PD NOT OPEN ")
             return True
     
-        if DEV_MODE:
-            print("[PUREDATAMANAGER] DEV MODE - Assuming Plugdata is open")
+        # if DEV_MODE:
+        #     print("[PUREDATAMANAGER] DEV MODE - Assuming Plugdata is open")
             
 
         #configuration of PD 
@@ -104,7 +114,9 @@ class PuredataManager:
 
         try:
             self.process.wait(timeout = 3)
-            self._stderr_thread(timeout = 1)
+
+            if self._stderr_thread is not None:
+                self._stderr_thread.join(timeout = 1)
 
         except subprocess.TimeoutExpired:
 
@@ -158,3 +170,7 @@ class PuredataManager:
 
     def send(self, address , value):
         self.osc_client.send_message(address, value)
+
+
+    def send_panel(self,address,value):
+        self.panel_osc_client.send_message(address,value)

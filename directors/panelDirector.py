@@ -16,8 +16,9 @@ class PanelDirector():
         #setup pots - loop through pots + set value to params
 
     def update(self):
+        updated_buttons = {}
 
-        #for pots
+        #---for pots
         for name, params in POT_MASTERLIST.items():
             if params is None:
                 continue
@@ -45,12 +46,24 @@ class PanelDirector():
             self._send_destination(params , clamped)
 
 
-        #for buttons
-        self.motherPanel.button_changes()
+        #---for buttons
+        updated_buttons = self.motherPanel.button_changes()
+
+        
+
+        for name , value in updated_buttons.items():
+
+            params = BUTTON_MASTERLIST.get(name)
+
+            if params is None:
+                continue
+
+            self._send_destination(params , value)
+
 
     def _send_destination(self , params, value):
         if params.destination == DESTINATION_PLACES.PUREDATA:
-            self.pureDataManager.send(params.target,value)
+            self.pureDataManager.send_panel(params.target,value)
         elif params.destination == DESTINATION_PLACES.CICADAS:
             print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO CICADAS {params.target} , {value:.3f}")
         elif params.destination == DESTINATION_PLACES.FOR_PI:

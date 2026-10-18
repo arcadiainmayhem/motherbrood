@@ -2,6 +2,7 @@
 import time
 from core.installationConstants import DEV_MODE
 import serial
+from core.installationConstants import OPEN_BUG_SERIAL
 from swamp.cicadaConstants import BUG_FRAME
 
 
@@ -25,6 +26,10 @@ class BugLinkManager:
     #open serial port     
     def open(self):
         try:
+            if not OPEN_BUG_SERIAL:
+                print("[BUGLINKMANAGER] Serial Disabled")
+                return True
+            
             self.ser.open()
 
             return True
@@ -47,7 +52,11 @@ class BugLinkManager:
         #check and early return
         if not  self.is_connected():
             return []
-
+        
+        if not OPEN_BUG_SERIAL:
+            print("[BUGLINKMANAGER] Serial Disabled - Returning Empty Frame")
+            return True
+        
         self._buf += self.ser.read(self.ser.in_waiting or 0)
         lines = self._buf.split(b"\n")
         self._buf = lines.pop() #incomplete tail
