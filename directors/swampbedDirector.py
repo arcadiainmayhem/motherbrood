@@ -17,7 +17,7 @@ from swamp.cicadaConstants import BROOD_IDS
 
 from swamp.bed.swampbedConstants import SWAMPBED_PARAMS_SETTINGS , BED_PREFIX , PANEL_PREFIX
 
-from core.installationConstants import DEV_MODE
+from core.installationConstants import MODE
 from hardware.hardwareConstants import MOTHER_PORT,MOTHER_BAUD , MOTHER_PANEL_PORT
 
 
@@ -62,6 +62,9 @@ class SwampbedDirector():
 
     #start PD , open port
     def start(self):
+        #get current mode
+        print(f"[SWAMPBEDDIRECTOR] Current Mode : {MODE}")
+
         #start puredata 
 
         # if DEV_MODE:
