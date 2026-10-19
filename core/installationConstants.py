@@ -1,7 +1,7 @@
 
 import platform
 
-MODE = "pi_remote"
+MODE = "installation"
 
 #dev mode on Windows , live on Linunx
 DEV_MODE =  platform.system() != "Linux"
@@ -33,7 +33,6 @@ OPEN_PANEL_SERIAL = _m["open_panel_serial"]
 OPEN_BUG_SERIAL = _m["open_bug_serial"]
 OSC_TARGET_IP = _m["osc_target_ip"]
 #for troubleshooting
-# WINDOWS_TARGET_IP = "192.168.1.47" 
 
 #installation constants
 
