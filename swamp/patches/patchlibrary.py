@@ -9,3 +9,4 @@ PATCH_DIR = Path(__file__).parent
 TEST_PATCH = PATCH_DIR/"testswamp.pd"
 
 FINAL_REV = PATCH_DIR/"swamp_1.pd"
+FINAL_REV_DEC = PATCH_DIR/"swamp_dec_26.pd"
