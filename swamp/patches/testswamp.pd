@@ -220,7 +220,7 @@
 #X obj 3732 2295 env~;
 #X floatatom 3685 2387 5 0 0 0 - - - 12;
 #X text -166 1210 partial freq \, max level \, how slow it fades;
-#X obj 320 1713 *~ 2.5;
+#X obj 115 1884 expr~ tanh($v1 * 1.5);
 #X obj 318 1779 pan2~;
 #X obj 370 1828 throw~ swampbed_right;
 #X obj 2257 1176 wander 8000 20000;
@@ -361,8 +361,8 @@
 #X obj 130 944 r~ mean_arousal[bug];
 #X obj 973 653 s density;
 #X obj 941 682 r density;
-#X obj 318 1884 expr~ tanh($v1 * 1);
-#X obj 115 1884 expr~ tanh($v1 * 1);
+#X obj 318 1884 expr~ tanh($v1 * 3);
+#X obj 320 1713 *~ 1;
 #X connect 0 0 179 0;
 #X connect 1 0 2 0;
 #X connect 2 0 21 0;
@@ -494,7 +494,7 @@
 #X connect 138 0 137 0;
 #X connect 139 0 198 0;
 #X connect 140 0 139 0;
-#X connect 141 0 204 0;
+#X connect 141 0 346 0;
 #X connect 142 0 141 0;
 #X connect 143 0 144 1;
 #X connect 144 0 145 0;
@@ -503,7 +503,7 @@
 #X connect 147 0 148 0;
 #X connect 148 0 146 1;
 #X connect 149 0 139 1;
-#X connect 150 0 346 0;
+#X connect 150 0 204 0;
 #X connect 151 0 123 0;
 #X connect 152 0 178 0;
 #X connect 152 0 112 0;
@@ -559,7 +559,7 @@
 #X connect 198 0 150 0;
 #X connect 199 0 200 0;
 #X connect 201 0 202 0;
-#X connect 204 0 205 0;
+#X connect 204 0 113 0;
 #X connect 205 0 345 0;
 #X connect 205 1 206 0;
 #X connect 207 0 208 0;
@@ -681,4 +681,4 @@
 #X connect 341 0 147 0;
 #X connect 342 0 18 0;
 #X connect 345 0 113 0;
-#X connect 346 0 113 0;
+#X connect 346 0 205 0;
