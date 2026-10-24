@@ -1,4 +1,4 @@
-from swamp.bed.swampbedConstants import SWAMPBED_PARAMS_SETTINGS , BED_CONTINUOUS
+from swamp.bed.swampbedConstants import BED_CONTINUOUS
 from core.utilities import *
 
 
