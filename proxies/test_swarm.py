@@ -1,6 +1,6 @@
 from swamp.buglinkManager import BugLinkManager
 from swamp.broodswarm import Broodswarm
-from swamp.cicadaConstants import BROOD_IDS
+from swamp.cicada.cicadaConstants import BROOD_IDS
 import time
 
 

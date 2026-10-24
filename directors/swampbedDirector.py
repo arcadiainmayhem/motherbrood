@@ -13,8 +13,8 @@ import traceback
 from swamp.broodswarm import Broodswarm
 from swamp.bed.bedmapper import Bedmapper
 
-from swamp.cicadaConstants import BROOD_IDS
-
+from swamp.cicada.cicadaConstants import BROOD_IDS
+from swamp.cicada.swarmReader import SwarmReader
 from swamp.bed.swampbedConstants import SWAMPBED_PARAMS_SETTINGS , BED_PREFIX , PANEL_PREFIX
 
 from core.installationConstants import MODE
@@ -56,9 +56,11 @@ class SwampbedDirector():
 
         #setup motherpanel director
         self.panelDirector = PanelDirector(self.motherPanel , self.puredatabed)
-
+   
         #initialise swarm
         self.swarm = Broodswarm(BROOD_IDS)
+       #setup swarmreader
+        self.swarmReader = SwarmReader(self.swarm)
 
     #start PD , open port
     def start(self):
@@ -99,13 +101,12 @@ class SwampbedDirector():
         return True
     
     def tick(self, now):
-        time.sleep(0.1)
 
         self._read_bug_frames(now)
         self._read_panel_frames(now)
 
-        self._decide(now)
-        self._send()
+        self._process_events(now)
+        self._process_levels(now)
 
     #reads incoming frames
     def _read_bug_frames(self, now):
@@ -148,29 +149,21 @@ class SwampbedDirector():
             print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
             traceback.print_exc()
 
-    def _decide(self , now):
+    def _process_events(self , now):
 
-        #continuous mapping
-        for_decision = {}
+    
+        for name, value in self.swarmReader.events(now):
+            self.puredatabed.send(f"{BED_PREFIX}{name}",value)
 
-        for name in SWAMPBED_PARAMS_SETTINGS:
-            method = getattr(self.swarm , name)
-            for_decision[name] = method(now)
-
-
-
-        #to updates
-        self.bedmapper.update(for_decision)
- 
-
-        #events 
-
-        #print("[SWAMPBEDDIRECTOR] DECIDING WHAT TO DO WITH VALUE")
-
+    
     #send out commands . values to mothers 
-    def _send(self):
+    def _process_levels(self,now):
         #send for bed mapper
+        #continuous mapping
 
+        levels = self.swarmReader.read(now)
+        #to updates
+        self.bedmapper.update(levels)
         for name,value in self.bedmapper.bedvalues.items():
             self.puredatabed.send(f"{BED_PREFIX}{name}" , value)
 

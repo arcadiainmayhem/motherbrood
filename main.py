@@ -17,7 +17,7 @@ def main():
         print("[MAIN] Swampbed Started Successfully ")     
 
         while True:
-
+            time.sleep(0.1)
             now = time.monotonic()
             swampbed.tick(now)           
 

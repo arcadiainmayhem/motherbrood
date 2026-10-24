@@ -1,11 +1,11 @@
-from swamp.cicadaConstants import BROOD_TIMEOUT , BUG_FRAME , CICADASTATES , CALLING_HOLD
+from swamp.cicada.cicadaConstants import BROOD_TIMEOUT , BUG_FRAME , CICADASTATES , CALLING_HOLD
 
 class Broodswarm:
 
     def __init__(self , brood_ids):
         #container for cicadas
         self.broodlings = {}
-
+        self.call_onsets = []
         #initialise broodlings
 
         for broodling in brood_ids:
@@ -28,12 +28,17 @@ class Broodswarm:
         brood_id = frame["id"]
         
 
+
         #return if id is not 
         if brood_id not in self.broodlings:
             return 
 
+
         #check against row for correct broodling to update based on id
         row = self.broodlings[brood_id]
+        
+        
+        previous_state = row["state"]
         #check through incoming frame 
         for name in frame:
             if name != "id":
@@ -43,17 +48,19 @@ class Broodswarm:
         #time specific
         row["last_seen"] = now
 
+
+
+        #after copying
         current_state = row["state"]
-        previous_state = self._check_current_state(now)
 
         if row["state"] == CICADASTATES["STATE_CALLING"]:
             row["last_calling"] = now
 
-
+        #check against previous state for change
         if current_state != previous_state:
             #statechange
             if current_state== CICADASTATES["STATE_CALLING"]:
-                row["just_calling_state"] = True
+                self.call_onsets.append(brood_id)
 
         
 
@@ -133,9 +140,7 @@ class Broodswarm:
         return active_rows_of_bugs
 
 
-    def _check_current_state(self,now):
-        for bug in self._active_bugs(now):
-            current_state = bug["state"] 
-
-
-        return current_state
+    def get_and_drain_call_onsets(self):
+        onset = self.call_onsets
+        self.call_onsets = []
+        return onset

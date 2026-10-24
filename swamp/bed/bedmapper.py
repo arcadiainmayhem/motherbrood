@@ -1,5 +1,4 @@
-from swamp.bed.swampbedConstants import SWAMPBED_PARAMS_SETTINGS
-from swamp.broodswarm import Broodswarm
+from swamp.bed.swampbedConstants import SWAMPBED_PARAMS_SETTINGS , BED_CONTINUOUS
 from core.utilities import *
 
 
@@ -11,7 +10,7 @@ class Bedmapper:
         self.bedvalues = {} 
 
         #storing container
-        for name in SWAMPBED_PARAMS_SETTINGS:
+        for name in BED_CONTINUOUS:
             self.bedvalues[name] = 0.0
 
     def update(self , descriptors):
@@ -19,7 +18,7 @@ class Bedmapper:
         #incoming values
 
         #name is the key , settings is the value ( dict )
-        for name , settings in SWAMPBED_PARAMS_SETTINGS.items():
+        for name , settings in BED_CONTINUOUS.items():
 
 
 
