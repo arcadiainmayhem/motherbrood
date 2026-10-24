@@ -3,7 +3,7 @@ import time
 from core.installationConstants import DEV_MODE
 import serial
 from core.installationConstants import OPEN_BUG_SERIAL
-from swamp.cicadaConstants import BUG_FRAME
+from swamp.cicada.cicadaConstants import BUG_FRAME
 
 
 
