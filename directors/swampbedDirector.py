@@ -15,7 +15,7 @@ from swamp.bed.bedmapper import Bedmapper
 
 from swamp.cicada.cicadaConstants import BROOD_IDS
 from swamp.cicada.swarmReader import SwarmReader
-from swamp.bed.swampbedConstants import SWAMPBED_PARAMS_SETTINGS , BED_PREFIX , PANEL_PREFIX
+from swamp.bed.swampbedConstants import BED_PREFIX , PANEL_PREFIX
 
 from core.installationConstants import MODE
 from hardware.hardwareConstants import MOTHER_PORT,MOTHER_BAUD , MOTHER_PANEL_PORT
