@@ -17,7 +17,7 @@ from swamp.cicada.cicadaConstants import BROOD_IDS
 # }
 
 
-BED_CONTIUOUS = {
+BED_CONTINUOUS = {
     # "calling_count" :  { "low" : 0 , "high" : len(BROOD_IDS) , "rise" : 1 , "fall" : 1} ,
     # "mean_arousal" : {  "low" : 0.0 , "high" : 1.0 , "rise" : 0.5 , "fall" : 0.1},  
 
