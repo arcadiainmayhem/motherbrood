@@ -43,9 +43,19 @@ class Broodswarm:
         #time specific
         row["last_seen"] = now
 
+        current_state = row["state"]
+        previous_state = self._check_current_state(now)
 
-        if  row["state"] == CICADASTATES["STATE_CALLING"]:
+        if row["state"] == CICADASTATES["STATE_CALLING"]:
             row["last_calling"] = now
+
+
+        if current_state != previous_state:
+            #statechange
+            if current_state== CICADASTATES["STATE_CALLING"]:
+                row["just_calling_state"] = True
+
+        
 
     #return values of broodlings
 
@@ -65,7 +75,7 @@ class Broodswarm:
     
     #what else would director ask for
 
-
+    #CHECK BUGS FOR STATE CALLING
     def calling_count(self, now):
         count = 0
         for row in self._active_bugs(now):
@@ -73,7 +83,18 @@ class Broodswarm:
             if t is not None and (now - t) < CALLING_HOLD:
                 count += 1
         return count
-    
+
+    #CHECK BUGS FOR STATE REFACTORY
+    def bugs_at_rest(self,now):
+        rest_count = 0
+        for row in self._active_bugs(now):
+            if row["state"] == CICADASTATES["STATE_REFRACTORY"]:
+                rest_count += 1
+        return rest_count
+
+
+
+
     def mean_arousal(self , now):
         arousal = 0
         
@@ -92,6 +113,9 @@ class Broodswarm:
 
         return mean_arousal
 
+
+
+
     def active_count(self, now):
         total = len(self._active_bugs(now)) #returns int
         return total
@@ -107,3 +131,11 @@ class Broodswarm:
                 active_rows_of_bugs.append(self.broodlings[brood])
 
         return active_rows_of_bugs
+
+
+    def _check_current_state(self,now):
+        for bug in self._active_bugs(now):
+            current_state = bug["state"] 
+
+
+        return current_state
