@@ -44,7 +44,6 @@ class PanellinkManager:
         if self.is_connected():
             #connected, so active, can close
             self.ser.close()
-            self.isOpen = False
         else: 
             #not connected nothing at all
             print("[PANELLINKMANAGER] Closing Error")
@@ -101,7 +100,7 @@ class PanellinkManager:
 
 
                         
-                     #return
+                #return
             return frame
 
     

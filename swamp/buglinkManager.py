@@ -42,7 +42,6 @@ class BugLinkManager:
         if self.is_connected():
             #connected, so active, can close
             self.ser.close()
-            self.isOpen = False
         else: 
             #not connected nothing at all
             print("[BUGLINKMANAGER] Closing Error")
@@ -97,7 +96,7 @@ class BugLinkManager:
 
 
                         
-                     #return
+                #return
             return frame
 
     

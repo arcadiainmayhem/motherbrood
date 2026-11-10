@@ -14,7 +14,8 @@ BUG_FRAME = {
     "personality":int,
     
     "callingTimer" : float,
-    
+
+    #SENSORS
 
     #booleans 
     #"seq" : int
@@ -34,7 +35,7 @@ BROOD_IDS = { 0  , 1 , 2 , 3, 4, 5, 6, 7, 8, 9}
 
 
 #FOR CALLING COUNT
-CALLING_HOLD = 0.45  # seconds; tune by ear
+CALLING_HOLD = 0.60  # seconds; tune by ear
 
 #FOR INTEPRETER
 SWARM_DENSITY_PEAK_HIGH_THRESHOLD = 0.65

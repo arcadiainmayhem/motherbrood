@@ -18,8 +18,10 @@ from swamp.cicada.swarmReader import SwarmReader
 from swamp.bed.swampbedConstants import BED_PREFIX , PANEL_PREFIX
 
 from core.installationConstants import MODE
-from hardware.hardwareConstants import MOTHER_PORT,MOTHER_BAUD , MOTHER_PANEL_PORT
+from hardware.hardwareConstants import MOTHER_PORT,MOTHER_BAUD , MOTHER_PANEL_PORT , MOTHER_LED_PORT
 
+from directors.moodDirector import MoodDirector
+from led.ledlinkManager import LedLinkManager
 
 import time
 
@@ -53,7 +55,10 @@ class SwampbedDirector():
         self.panellink = PanellinkManager(MOTHER_PANEL_PORT, MOTHER_BAUD)
         #setup Bedmapper
         self.bedmapper = Bedmapper()
-
+        #setup led link
+        self.ledLink = LedLinkManager(MOTHER_LED_PORT , MOTHER_BAUD)
+        #setup mooddirecto
+        self.moodDirector = MoodDirector(self.ledLink)
         #setup motherpanel director
         self.panelDirector = PanelDirector(self.motherPanel , self.puredatabed)
    
@@ -87,6 +92,9 @@ class SwampbedDirector():
             print("[SWAMPBEDDIRECTOR] MOTHER Port Not Open")
             return False
 
+        if not self.ledLink.open():
+            print("[SWAMPBEDDIRECTOR] LED LINK PORT Not Open"  )
+            return False
         
         if not self.panellink.open():
             print("[SWAMPBEDDIRECTOR] MOTHER Panel Port Not Open")
@@ -104,9 +112,13 @@ class SwampbedDirector():
 
         self._read_bug_frames(now)
         self._read_panel_frames(now)
-
+        self._read_led_frames(now)
+        
         self._process_events(now)
         self._process_levels(now)
+
+
+    #probably can combine later if theres time 
 
     #reads incoming frames
     def _read_bug_frames(self, now):
@@ -116,8 +128,6 @@ class SwampbedDirector():
      
 
             #print(f"[SWAMPBEDDIRECTOR] Frames: ",frames, ".There are ",self.buglink.droppedFrames, " Dropped Frames: ")       
-
-
             #map to cicada
             for frame in frames:
                 #print(frame)
@@ -146,8 +156,17 @@ class SwampbedDirector():
 
 
         except Exception as e:
-            print(f"[SWAMPBEDDIRECTOR Cant read incoming frames because of : {e}] ")
+            print(f"[SWAMPBEDDIRECTOR Cant read incoming panel frames because of : {e}] ")
             traceback.print_exc()
+
+    def _read_led_frames(self,now):
+        try:    
+            #director already polls frames 
+            self.moodDirector.update(now)
+        except Exception as e:
+            print(f"[SWAMPBEDDIRECTOR Cant read incoming LED frames because of : {e}]")
+            traceback.print_exc()
+
 
     def _process_events(self , now):
 
@@ -177,6 +196,8 @@ class SwampbedDirector():
         #close bug and panel link
         self.buglink.close()
         self.panellink.close()
+        #close led link
+        self.ledLink.close()
 
     def restart(self):
         self.stop()

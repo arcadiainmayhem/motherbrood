@@ -57,7 +57,7 @@ BUTTON_MASTERLIST = {
 
 
 PANEL_FRAME = {
-
+    
     "packetCount":int,
     "firmware" : int,
     #pots - knobs
