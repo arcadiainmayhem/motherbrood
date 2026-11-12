@@ -32,8 +32,8 @@ class LedLinkManager():
             self.ser.open()
 
 
-            if not self._request_check():
-                return False
+            # if not self._request_check():
+            #     return False
 
             return True
         
@@ -94,7 +94,7 @@ class LedLinkManager():
         self.send(SET_OVERLAY,zone,oid)
 
     def send_heartbeat(self):
-       self.ser(HEARTBEAT)
+       self.send(HEARTBEAT)
 
     def read(self):
         pass
@@ -146,7 +146,7 @@ class LedLinkManager():
         request = self.poll() #gets + parse
 
         if requestCheckTimer >= REQUEST_INTERVAL:
-            if request[0] != "ID" and request[1] != "LED":
+            if request[0] != "ID" or request[1] != "LED":
                 print("[LEDLINKMANAGER] EXPECTED LED, GOT PANEL , CHECK USB")       
                 requestCheckTimer = 0
                 return False

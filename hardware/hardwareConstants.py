@@ -42,20 +42,20 @@ MOTHER_PANEL_PORT = _h["panel_port"]
 MOTHER_LED_PORT   = _h["led_port"]
 
 
-if DEV_MODE:
-    PD_BINARY = "pd"            # placeholder, never launched
-    PD_EXTERNALS_PATH = ""
-    MOTHER_PORT = "COM3"        # your real ones from Device Manager
-    MOTHER_PANEL_PORT = "COM4"
-    PD_AUDIO_DEVICE_NAME = ""
-else:
-    PD_BINARY = "/usr/local/bin/pd"
-    PD_AUDIO_DEVICE_NAME = "snd_rpi_hifiberry_dacplus (plug-in)"
-    PD_EXTERNALS_PATH = "/home/arcadia/Documents/else"
-    PD_EXTERNALS_PARENT = "/home/arcadia/Documents"
-    MOTHER_PANEL_PORT = "/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0" #ESP32 38 PIN - PANEL
-    MOTHER_PORT = "/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_30:ED:A0:65:9C:D0-if00" #ESP32 C3 SUPERMINI  - MOTHER 
-    #ESP32 LED
+# if DEV_MODE:
+#     PD_BINARY = "pd"            # placeholder, never launched
+#     PD_EXTERNALS_PATH = ""
+#     MOTHER_PORT = "COM3"        # your real ones from Device Manager
+#     MOTHER_PANEL_PORT = "COM4"
+#     PD_AUDIO_DEVICE_NAME = ""
+# else:
+#     PD_BINARY = "/usr/local/bin/pd"
+#     PD_AUDIO_DEVICE_NAME = "snd_rpi_hifiberry_dacplus (plug-in)"
+#     PD_EXTERNALS_PATH = "/home/arcadia/Documents/else"
+#     PD_EXTERNALS_PARENT = "/home/arcadia/Documents"
+#     MOTHER_PANEL_PORT = "/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0" #ESP32 38 PIN - PANEL
+#     MOTHER_PORT = "/dev/serial/by-id/usb-Espressif_USB_JTAG_serial_debug_unit_30:ED:A0:65:9C:D0-if00" #ESP32 C3 SUPERMINI  - MOTHER 
+#     #ESP32 LED
 
 #UART COMMS
 UART_DEVICE = "/dev/serial0"
