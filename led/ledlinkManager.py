@@ -1,7 +1,7 @@
 
 
 
-
+import time
 import serial
 from core.installationConstants import OPEN_LED_SERIAL , DEV_MODE 
 from led.ledConstants import INCOMING_FRAME , SET_OVERLAY, SET_PASSIVE , PLAY_COMBO , HEARTBEAT
@@ -32,8 +32,16 @@ class LedLinkManager():
             self.ser.open()
 
 
-            # if not self._request_check():
-            #     return False
+            result = self._request_check()
+
+            if result == "OK":
+                #connected
+                print("[LEDLINKMANAGER] LED ESP CONNECTED")
+            elif result == "WRONG":
+                print("[LEDLINKMANAGER] WRONG ESP CONNECTED")
+            elif result == "SILENT":
+                print("[LEDLINKMANAGER] UNKNOWN ESP CONNECTED")
+
 
             return True
         
@@ -79,6 +87,10 @@ class LedLinkManager():
         return frames
 
     def send(self, prefix , *value):
+
+        if not self.is_connected():
+            return
+
         parts = [prefix]
         for v in value:
             parts.append(str(v))
@@ -135,28 +147,38 @@ class LedLinkManager():
     #safety ping from correct ESP for correct ID
     def _request_check(self):
         #send request to ESP + timeout
-        self.ser.write(b"?\n") #needs new byte line
+        self.ser.write(b"?\n") #needs new byte line     
 
-        requestCheckTimer = 0
-        requestCheckTimer += 1
+        clock = time.monotonic()
 
-        REQUEST_INTERVAL = 5
+        TIMECHECK = 2
 
+        deadline = clock + TIMECHECK
 
-        request = self.poll() #gets + parse
+        while clock < deadline:
+    
+            #need to constantly poll 
 
-        if requestCheckTimer >= REQUEST_INTERVAL:
-            if request[0] != "ID" or request[1] != "LED":
-                print("[LEDLINKMANAGER] EXPECTED LED, GOT PANEL , CHECK USB")       
-                requestCheckTimer = 0
-                return False
+            request = self.poll() #gets + parse
 
-        elif request[0] == "ID" and request[1] == "LED":
-            print("[LEDLINKMANAGER] EXPECTED LED, GOT LED")
-            requestCheckTimer = 0
-            return True
-        else:
-            return False
+            for name , value in request:
+
+                if name != "ID":
+                    print(" [LEDLINKMANAGER] Not an ID frame ")
+                    continue
+                elif value["device"] == "LED":
+                    print(" [LEDLINKMANAGER] ID frame + LED")
+                    return "OK"
+                else:
+                    print(f"[LEDLINKMANAGER] EXPECTED LED , got {value['device']} ")
+                    return "WRONG"
+
+                
+            clock = time.monotonic()
+       
+            time.sleep(0.1)
+
+        return "SILENT"
 
     def is_connected(self):
         #theres a serial object
