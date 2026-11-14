@@ -13,6 +13,7 @@ class PanelDirector():
 
         self.lastSentPotValues  = {}
 
+
         #setup pots - loop through pots + set value to params
 
     def update(self):

@@ -104,7 +104,7 @@ class SwampbedDirector():
         #after everything has been iniitialised
         self.isSwampActive = True
 
-        print("[SWAMPBEDDIRECTOR] PUREDATA , MOTHER PORT , PANEL PORT - Everything Started Successfully")
+        print("[SWAMPBEDDIRECTOR] PUREDATA , MOTHER PORT , PANEL PORT , LED PORT - Everything Started Successfully")
 
         return True
     
@@ -128,7 +128,7 @@ class SwampbedDirector():
      
 
             #print(f"[SWAMPBEDDIRECTOR] Frames: ",frames, ".There are ",self.buglink.droppedFrames, " Dropped Frames: ")       
-            
+
             #map to cicada
             for frame in frames:
                 #print(frame)

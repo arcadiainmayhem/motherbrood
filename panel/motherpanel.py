@@ -13,10 +13,13 @@ class MotherPanel():
 
         self.panelPeripheryValues={}
 
-        self.previousButtonValues = {}
-        #
+        
         self.buttonStatus = {}
 
+        #storage
+
+        self.pendingValues = {}
+        
         #empty previous button values first frame?  
         self.previousButtonValues = {}
 
@@ -36,7 +39,11 @@ class MotherPanel():
         #store packet count 
         self.panelPeripheryValues["packetCount"] = frame["packetCount"]
 
-        
+
+
+
+    #1 is pressed. 0 is no activity
+
 
     def button_changes(self):
         #decide if something happened

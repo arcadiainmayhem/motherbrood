@@ -21,7 +21,12 @@ class MoodDirector():
         
         #track current zone?
 
-  
+
+        #health check for mood being present
+        for mood in Mood:
+              if mood not in MOTHERMOODS:
+                  print(f"[MOODDIRECTOR] Missing Mood : {mood}")
+                  continue
 
         self.touchTimes = []
         
@@ -78,13 +83,19 @@ class MoodDirector():
                         
 
     def _pick_mood(self,now):
+
+  
+                
         #if no touch yet, or too long no touch, change 
         if self.lastTouchTime is None or (now - self.lastTouchTime) >= IDLE_TIME:
-            return Mood.PASSIVE
+            return Mood.IDLE
         
         return Mood.PLACATED
         #use rules to determine
 
+
+    def on_gesture(self, zone , now):
+        pass
 
     #records a touch + mood pressure
     def on_touch(self , zone, now):

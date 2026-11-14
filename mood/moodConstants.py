@@ -4,32 +4,40 @@ from led.ledConstants import PassiveId, OverlayId , ZONECOUNT , ZoneId
 
 
 
-class Mood(IntEnum):
-    PASSIVE = 0,
-    PLACATED = 1,
-    OBSERVANT = 2,
-    WARY = 3,
-    FURIOUS = 4,
-    EXCITED = 5,
-    GACHA = 6,
-    MATERNAL = 7,
+class MOOD(IntEnum):
+    IDLE = 0
+    PLACATED = 1
+    OBSERVANT = 2
+    WARY = 3
+    FURIOUS = 4
+    EXCITED = 5
+    GACHA = 6
+    MATERNAL = 7
     PREACHY = 8
 
-STARTINGMOTHERMOOD = Mood.OBSERVANT
+STARTINGMOTHERMOOD = MOOD.OBSERVANT
 
 #TUNING
 MIN_DWELL = 30
 IDLE_TIME = 15
 TOUCH_EXPIRY = 60
 
-#mood -> led , sound , interaction
+class GESTURES(Enum):
+    SOOTHE = 1
+    PROVOKE = 2
+    FEED = 3
+    WITHHOLD = 4
+    PRAISE = 5
+    SCOLD = 6
+
+#mood -> led  sound , interaction
 #params for mood changes
 MOODRULES = {
     
 }
 MOTHERMOODS = {
 
-  "IDLE" : {    
+  MOOD.Idle : {    
       "led" : {
           #zone - animation
           "passive" : 
@@ -46,7 +54,7 @@ MOTHERMOODS = {
           
       },
   },
-  "PLACATED" : {
+  MOOD.PLACATED : {
       "led" : {
           #zone - animation
           "passive" : 
@@ -63,7 +71,7 @@ MOTHERMOODS = {
              
   }
   },
-  "WARY" : {
+  MOOD.WARY : {
     "led" : {
           #zone - animation
           "passive" : 
@@ -81,7 +89,7 @@ MOTHERMOODS = {
         
   }
   },
-  "OBSERVANT" : {
+  MOOD.OBSERVANT : {
         "led" : {
           #zone - animation
           "passive" : 
@@ -98,7 +106,7 @@ MOTHERMOODS = {
           
     }
   },
-  "FURIOUS" : {
+  MOOD.FURIOUS : {
       "led" : {
           #zone - animation
           "passive" : 
@@ -116,7 +124,7 @@ MOTHERMOODS = {
       },
     },        
   
-  "EXCITED" : {
+  MOOD.EXCITED : {
        "led" : {
           #zone - animation
           "passive" : 
@@ -134,7 +142,7 @@ MOTHERMOODS = {
       },
   },         
     
-  "MATERNAL" : {
+  MOOD.MATERNAL : {
       "led" : {
           #zone - animation
           "passive" : 
@@ -152,7 +160,7 @@ MOTHERMOODS = {
       },
   },          
     
-  "PREACHY" : {
+  MOOD.PREACHY : {
       "led" : {
           #zone - animation
           "passive" : 
@@ -170,7 +178,7 @@ MOTHERMOODS = {
       },
   },          
    
-  "GACHA" : {
+  MOOD.GACHA : {
        "led" : {
           #zone - animation
           "passive" : 
