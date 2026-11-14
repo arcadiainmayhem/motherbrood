@@ -113,7 +113,7 @@ class SwampbedDirector():
         self._read_bug_frames(now)
         self._read_panel_frames(now)
         self._read_led_frames(now)
-        
+
         self._process_events(now)
         self._process_levels(now)
 
@@ -128,6 +128,7 @@ class SwampbedDirector():
      
 
             #print(f"[SWAMPBEDDIRECTOR] Frames: ",frames, ".There are ",self.buglink.droppedFrames, " Dropped Frames: ")       
+            
             #map to cicada
             for frame in frames:
                 #print(frame)

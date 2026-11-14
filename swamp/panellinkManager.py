@@ -108,6 +108,37 @@ class PanellinkManager:
             print(f"[PANELLINKMANAGER] Error as : {e}")
             return None
 
+    #safety ping from correct ESP for correct ID
+    def _request_check(self):
+        #send request to ESP + timeout
+        self.ser.write(b"?\n") #needs new byte line     
+
+        clock = time.monotonic()
+
+        TIMECHECK = 2
+
+        deadline = clock + TIMECHECK
+
+        while clock < deadline:
+
+            request = self.poll()
+
+            for name, value in request:
+                if name != "ID":
+                    print("[PANELLINKMANAGER] Unknown ESP")
+                    continue #so code continues
+                elif value["device"] == "PANEL":
+                    print("[PANELLINKMANAGER] ID and PANEL ESP")
+                    return "OK"
+                else:
+                    print(f"[PANELLINKMANAGER] Expected Panel ESP , got f{value["device"]}")
+                    return "WRONG"               
+
+            clock = time.monotonic()
+
+            time.sleep(0.1)
+
+        return "SILENT"
 
     def is_connected(self):
         return self.ser is not None and self.ser.is_open

@@ -1,5 +1,6 @@
 
-from mood.moodConstants import MOTHERMOODS , MOODRULES , MIN_DWELL , IDLE_TIME , TOUCH_EXPIRY , STARTINGMOTHERMOOD
+from mood.moodConstants import MOTHERMOODS , MOODRULES , MIN_DWELL , IDLE_TIME , TOUCH_EXPIRY , STARTINGMOTHERMOOD , Mood
+from led.ledConstants import ZoneId
 import time
 
 class MoodDirector():
@@ -50,31 +51,38 @@ class MoodDirector():
         self.touchTimes = [t for t in self.touchTimes if now - t <= TOUCH_EXPIRY]
 
 
-
+    
     #checks mapping + telling led manager which zone to play
     def change_mood(self, mood ,  now ):
+
         print(f"[MOODIRECTOR] {self.currentMood} -> {mood}")
 
         self.currentMood = mood
         self.moodStart = now
 
-        led = MOTHERMOODS[mood]["led"]
+        self._send_mood(mood)
+ 
 
-        #look at all the zones and change at once? # send message out
-        for zone, pid in led["passive"].items():
-            self.ledlink.set_passive_animation(zone,pid)
-        for zone, oid in led["overlay"].items():
-            self.ledlink.set_overlay_animation(zone,oid)
-                        
+    def reapply(self):
+        self._send_mood(self.currentMood)
+
+    def _send_mood(self, mood ):
         
+        for zone in ZoneId:
+            led = MOTHERMOODS[mood]["led"]
 
+        pid = led["passive"]
+        self.ledlink.set_passive_animation(zone, pid)
+        oid = led["overlay"]
+        self.ledlink.set_overlay_animation(zone, oid)
+                        
 
     def _pick_mood(self,now):
         #if no touch yet, or too long no touch, change 
         if self.lastTouchTime is None or (now - self.lastTouchTime) >= IDLE_TIME:
-            return "IDLE"
+            return Mood.PASSIVE
         
-        return "PLACATED"
+        return Mood.PLACATED
         #use rules to determine
 
 

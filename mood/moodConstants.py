@@ -1,76 +1,43 @@
 
 from enum import Enum , IntEnum
-
-#MUST MATCH ESP SIDE - MENU OF LED EFFECTS
-class PassiveId(IntEnum):
-    SLOW_MAGENTA = 0
-    SLOW_GREEN = 1
-    SLOW_PULSE_YELLOW = 2
+from led.ledConstants import PassiveId, OverlayId , ZONECOUNT , ZoneId
 
 
-class OverlayId(IntEnum):
-   FLASH = 0
-   FLASHFADE = 1   
-   FLASHDISPERSE = 2
 
-STARTINGMOTHERMOOD = "IDLE"
+class Mood(IntEnum):
+    PASSIVE = 0,
+    PLACATED = 1,
+    OBSERVANT = 2,
+    WARY = 3,
+    FURIOUS = 4,
+    EXCITED = 5,
+    GACHA = 6,
+    MATERNAL = 7,
+    PREACHY = 8
+
+STARTINGMOTHERMOOD = Mood.OBSERVANT
 
 #TUNING
 MIN_DWELL = 30
 IDLE_TIME = 15
 TOUCH_EXPIRY = 60
 
-ZONECOUNT = 8
-
 #mood -> led , sound , interaction
 #params for mood changes
 MOODRULES = {
-   "IDLE" : {
-    "min_activity" : 0,
-    "max_dwell_time" : 0,
-    "max_idle_time" : 0,
-    "max_touch_count" : 0,
-   },
-   "PLACATED" : {
-      
-  },
-  "WARY" : {
-        
-  },
-  "OBSERVANT" : {
-        
-  },
-  "FURIOUS" : {
-        
-  },
-  "EXCITED" : {
-          
-    },
-  "MATERNAL" : {
-          
-    },
-  "PREACHY" : {
-          
-    },
-  "GACHA" : {
-          
-    },
+    
 }
 MOTHERMOODS = {
 
   "IDLE" : {    
       "led" : {
           #zone - animation
-          "passive" : {
-              0 : PassiveId.SLOW_MAGENTA , 
-              1: PassiveId.SLOW_MAGENTA , 
-              2 : PassiveId.SLOW_MAGENTA,
-          },
-          "overlay" : {
-              0 : OverlayId.FLASH,
-              1: OverlayId.FLASH,
-              2 : OverlayId.FLASH,
-          },
+          "passive" : 
+              PassiveId.PASSIVE_CALM, 
+          
+          "overlay" : 
+              OverlayId.OVERLAY_TOUCHFLASH
+          
       },
       "sound":{
           
@@ -81,44 +48,145 @@ MOTHERMOODS = {
   },
   "PLACATED" : {
       "led" : {
-          "passive" : {
-              0 : PassiveId.SLOW_PULSE_YELLOW , 
-              1: PassiveId.SLOW_PULSE_YELLOW , 
-              2 : PassiveId.SLOW_PULSE_YELLOW,
-          },
-          "overlay" : {
-              0 : OverlayId.FLASH,
-              1: OverlayId.FLASH,
-              2 : OverlayId.FLASH,
-          },
+          #zone - animation
+          "passive" : 
+              PassiveId.PASSIVE_CALM, 
+          
+          "overlay" : 
+              OverlayId.OVERLAY_BLOOM,
+          
+      },
+      "sound":{
+          
+      },
+      "interaction" : {
+             
+  }
+  },
+  "WARY" : {
+    "led" : {
+          #zone - animation
+          "passive" : 
+              PassiveId.PASSIVE_WATCHFUL, 
+          
+          "overlay" : 
+              OverlayId.OVERLAY_TOUCHFLASH,
+          
       },
       "sound":{
           
       },
       "interaction" : {
           
-      },      
-  },
-  "WARY" : {
         
+  }
   },
   "OBSERVANT" : {
-        
+        "led" : {
+          #zone - animation
+          "passive" : 
+              PassiveId.PASSIVE_WATCHFUL, 
+          
+          "overlay" : 
+              OverlayId.OVERLAY_BLOOM,
+          
+      },
+      "sound":{
+          
+      },
+      "interaction" : {
+          
+    }
   },
   "FURIOUS" : {
-        
-  },
+      "led" : {
+          #zone - animation
+          "passive" : 
+              PassiveId.PASSIVE_AGITATED, 
+          
+          "overlay" :
+              OverlayId.OVERLAY_TOUCHFLASH,
+          
+      },
+      "sound":{
+          
+      },
+      "interaction" : {
+          
+      },
+    },        
+  
   "EXCITED" : {
+       "led" : {
+          #zone - animation
+          "passive" : 
+              PassiveId.PASSIVE_ELATED, 
           
-    },
+          "overlay" : 
+              OverlayId.OVERLAY_SPARKLE,
+          
+      },
+      "sound":{
+          
+      },
+      "interaction" : {
+          
+      },
+  },         
+    
   "MATERNAL" : {
+      "led" : {
+          #zone - animation
+          "passive" : 
+              PassiveId.PASSIVE_NURTURING, 
           
-    },
+          "overlay" : 
+              OverlayId.OVERLAY_BLOOM,
+          
+      },
+      "sound":{
+          
+      },
+      "interaction" : {
+          
+      },
+  },          
+    
   "PREACHY" : {
+      "led" : {
+          #zone - animation
+          "passive" : 
+              PassiveId.PASSIVE_NURTURING, 
+        
+          "overlay" : 
+              OverlayId.OVERLAY_TOUCHFLASH,
           
-    },
+      },
+      "sound":{
+          
+      },
+      "interaction" : {
+          
+      },
+  },          
+   
   "GACHA" : {
+       "led" : {
+          #zone - animation
+          "passive" : 
+              PassiveId.PASSIVE_ELATED, 
           
-    },
-} 
+          "overlay" : 
+              OverlayId.OVERLAY_SPARKLE,
+          
+      },
+      "sound":{
+          
+      },
+      "interaction" : {
+          
+      },
+  },         
+}   
+
 
