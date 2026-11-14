@@ -131,7 +131,7 @@ class PanellinkManager:
                     print("[PANELLINKMANAGER] ID and PANEL ESP")
                     return "OK"
                 else:
-                    print(f"[PANELLINKMANAGER] Expected Panel ESP , got f{value["device"]}")
+                    print(f"[PANELLINKMANAGER] Expected Panel ESP , got {value['device']}")
                     return "WRONG"               
 
             clock = time.monotonic()
