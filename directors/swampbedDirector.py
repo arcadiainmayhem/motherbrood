@@ -64,7 +64,7 @@ class SwampbedDirector():
         #setup mooddirector
         self.moodDirector = MoodDirector(self.ledLink)
         #setup motherpanel director
-        self.panelDirector = PanelDirector(self.motherPanel , self.puredatabed , self.moodDirector)
+        self.panelDirector = PanelDirector(self.motherPanel , self.puredatabed , self.moodDirector , self.gestureReader)
    
         #initialise swarm
         self.swarm = Broodswarm(BROOD_IDS)
@@ -123,7 +123,7 @@ class SwampbedDirector():
 
         #gesture
         gesture = self.gestureReader.update(now)
-        
+
         if gesture is not None:
 
             self.moodDirector.on_gesture(gesture , now)
