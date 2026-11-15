@@ -15,7 +15,7 @@ class MotherPanel():
 
         #storage
 
-        self.pendingChanges = {} #mailbox
+        self.pendingButtonValues = {} #mailbox
         
         #empty previous button values first frame? 
 
@@ -51,7 +51,7 @@ class MotherPanel():
             newValue = frame[name]
 
             if oldValue != newValue:
-                self.pendingValues[name] = newValue
+                self.pendingButtonValues[name] = newValue
 
             self.buttonValues[name] = newValue
 
@@ -59,8 +59,8 @@ class MotherPanel():
         self.panelPeripheryValues["packetCount"] = frame["packetCount"]
 
     def take_changes(self):
-        changes = self.pendingValues
-        self.pendingValues = {}
+        changes = self.pendingButtonValues
+        self.pendingButtonValues = {}
         return changes
 
 
