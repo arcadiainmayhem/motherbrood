@@ -26,7 +26,7 @@ GESTURE_EXPIRY = 15
 class GESTURES(Enum):
     SOOTHE = 1
     PROVOKE = 2
-    FEED = 3
+    OFFERING = 3
     WITHHOLD = 4
     PRAISE = 5
     SCOLD = 6

@@ -21,7 +21,7 @@ GESTURE_RULES = {
     GESTURES.SPEAK: {
         "min_count" : 6 , "max_gap" : 0.3, "min_distinct": 2
     },
-    GESTURES.OFFER:   {
+    GESTURES.OFFERING:   {
         "min_distinct": 3 ,
     },
     GESTURES.POKE:   {
