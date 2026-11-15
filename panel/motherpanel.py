@@ -1,4 +1,4 @@
-from panel.panelConstants import POT_MASTERLIST , BUTTON_MASTERLIST
+from panel.panelConstants import POT_MASTERLIST , BUTTON_MASTERLIST , POT_ALPHA
 
 
 
@@ -13,15 +13,14 @@ class MotherPanel():
 
         self.panelPeripheryValues={}
 
-        
-        self.buttonStatus = {}
-
         #storage
 
-        self.pendingValues = {}
+        self.pendingChanges = {} #mailbox
         
-        #empty previous button values first frame?  
-        self.previousButtonValues = {}
+        #empty previous button values first frame? 
+
+
+    #1 is pressed. 0 is no activity
 
 
     def update(self, frame ):
@@ -30,49 +29,71 @@ class MotherPanel():
 
         #check incoming frame
         
-        #store pot values from incoming frame
+        
+        #-- smooth once before storing
         for name in POT_MASTERLIST:
-            self.potValues[name] = frame[name]
-        #store button values
+            raw = frame[name]
+            #first time
+            if name not in self.potValues:
+                self.potValues[name] = raw
+            else:
+                old = self.potValues[name]
+                self.potValues[name] = old + POT_ALPHA * (raw - old)
+            
+        #--compare with prev button
         for name in BUTTON_MASTERLIST:
-            self.buttonValues[name] = frame[name]  
+     
+
+            #old
+        
+            oldValue = self.buttonValues.get(name)
+
+            newValue = frame[name]
+
+            if oldValue != newValue:
+                self.pendingValues[name] = newValue
+
+            self.buttonValues[name] = newValue
+
         #store packet count 
         self.panelPeripheryValues["packetCount"] = frame["packetCount"]
 
+    def take_changes(self):
+        changes = self.pendingValues
+        self.pendingValues = {}
+        return changes
 
 
 
-    #1 is pressed. 0 is no activity
+
+    # def button_changes(self):
+    #     #decide if something happened
+    #     #current - in order
+    #     #clear every round
+    #     self.buttonStatus = {}
+    #     #for momentary buttons
+    #     for name , value in self.buttonValues.items():
+    #         #guard against empty
+    #         if name not in self.previousButtonValues:
+    #             continue
+    #         #check difference in value        
+    #         previousValue = self.previousButtonValues[name]
+
+    #         outcome = value - previousValue
+    #             #difference - change - pressed
+    #         if outcome == -1 :
+    #             #print("[MOTHERPANEL] No Press")  
+
+    #             #for latching buttons 
+    #             pass 
+    #         elif outcome == 1:
+
+    #             print("[MOTHERPANEL] Pressed")  
+
+    #             self.buttonStatus[name] = value
 
 
-    def button_changes(self):
-        #decide if something happened
-        #current - in order
-        #clear every round
-        self.buttonStatus = {}
-        #for momentary buttons
-        for name , value in self.buttonValues.items():
-            #guard against empty
-            if name not in self.previousButtonValues:
-                continue
-            #check difference in value        
-            previousValue = self.previousButtonValues[name]
-
-            outcome = value - previousValue
-                #difference - change - pressed
-            if outcome == -1 :
-                #print("[MOTHERPANEL] No Press")  
-
-                #for latching buttons 
-                pass 
-            elif outcome == 1:
-
-                print("[MOTHERPANEL] Pressed")  
-
-                self.buttonStatus[name] = value
-
-
-        return self.buttonStatus
+    #     return self.buttonStatus
 
 
 

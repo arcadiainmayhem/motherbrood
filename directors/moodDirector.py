@@ -1,5 +1,5 @@
 
-from mood.moodConstants import MOTHERMOODS , MOODRULES , MIN_DWELL , IDLE_TIME , TOUCH_EXPIRY , STARTINGMOTHERMOOD , Mood
+from mood.moodConstants import MOTHERMOODS , MOODRULES , MIN_DWELL , IDLE_TIME , TOUCH_EXPIRY , STARTINGMOTHERMOOD , MOOD , GESTURE_EXPIRY
 from led.ledConstants import ZoneId
 import time
 
@@ -9,8 +9,6 @@ class MoodDirector():
     def __init__(self , LedLinkManager):
         self.ledlink = LedLinkManager
 
-
-
         #initialises initial mood
         self.currentMood = STARTINGMOTHERMOOD
 
@@ -18,16 +16,21 @@ class MoodDirector():
         #time
 
         self.lastTouchTime = None
+
+        self.gestureLog = []
         
+        self.gestureTimestamp = []
+        
+
         #track current zone?
 
 
         #health check for mood being present
-        for mood in Mood:
+        for mood in MOOD:
               if mood not in MOTHERMOODS:
                   print(f"[MOODDIRECTOR] Missing Mood : {mood}")
-                  continue
-
+                  raise ValueError("MISSING MOOD")
+              
         self.touchTimes = []
         
 
@@ -55,8 +58,25 @@ class MoodDirector():
         #reset
         self.touchTimes = [t for t in self.touchTimes if now - t <= TOUCH_EXPIRY]
 
+        #reset if last gesture time and first gesture time exceeds expiry
+        # firsTimestamp = self.gestureTimestamp[0]
+        # lastTimestamp = self.gestureTimestamp[len(self.gestureTimestamp) - 1]
+        # timeElapsed = lastTimestamp - firsTimestamp
 
-    
+        # if timeElapsed >= GESTURE_EXPIRY:
+        #     #reset
+        #     self.gestureTimestamp = []
+
+        #reset
+        kept = []
+        for entry in self.gestureLog:
+            t = self.gestureLog[1]
+            if now - t <= GESTURE_EXPIRY:
+                kept.append(entry)
+        self.gestureLog = kept
+
+
+
     #checks mapping + telling led manager which zone to play
     def change_mood(self, mood ,  now ):
 
@@ -72,33 +92,47 @@ class MoodDirector():
         self._send_mood(self.currentMood)
 
     def _send_mood(self, mood ):
-        
-        for zone in ZoneId:
-            led = MOTHERMOODS[mood]["led"]
 
-        pid = led["passive"]
-        self.ledlink.set_passive_animation(zone, pid)
-        oid = led["overlay"]
-        self.ledlink.set_overlay_animation(zone, oid)
-                        
+        led = MOTHERMOODS[mood]["led"]
+
+        for zone in ZoneId:
+
+            pid = led["passive"]
+            self.ledlink.set_passive_animation(zone, pid)
+            oid = led["overlay"]
+            self.ledlink.set_overlay_animation(zone, oid)
+                            
 
     def _pick_mood(self,now):
 
   
-                
         #if no touch yet, or too long no touch, change 
         if self.lastTouchTime is None or (now - self.lastTouchTime) >= IDLE_TIME:
-            return Mood.IDLE
+            return MOOD.IDLE
         
-        return Mood.PLACATED
+        return MOOD.PLACATED
         #use rules to determine
 
+    #called by swamp bed , passes in chosen gesture ( post classify )
+    def on_gesture(self, gesture , now):    
 
-    def on_gesture(self, zone , now):
-        pass
+        # #log gestures
+        # for g in gesture:
+        #     parsed_gesture = gesture[0]
+
+        #     self.gestureLog.append(parsed_gesture)
+
+        #     self.gestureLog.append(parsed_gesture)
+
+        #     self.gestureTimestamp.append(now)
+
+        self.gestureLog.append((gesture ,now))
+
+        print(f"[MOODDIRECTOR] Chosen Gesture: {self.gestureLog[g]}, TimeStamp: {now}")
+
 
     #records a touch + mood pressure
-    def on_touch(self , zone, now):
+    def on_touch(self , zone , now):
 
         #check 
 
@@ -107,3 +141,6 @@ class MoodDirector():
         
         #append to a list
         self.touchTimes.append(now)
+
+
+        print(f"[MOODDIRECTOR] Current Zone being Touched:{zone} , Timestamp: {now}")

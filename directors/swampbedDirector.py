@@ -4,6 +4,8 @@ from swamp.buglinkManager import BugLinkManager
 from swamp.panellinkManager import PanellinkManager
 from panel.motherpanel import MotherPanel
 from directors.panelDirector import PanelDirector
+from directors.moodDirector import MoodDirector
+from gesture.gestureReader import GestureReader
 
 from swamp.bed.swampbedConstants import BED_OSC_PORT , PANEL_OSC_PORT
 from swamp.patches.patchlibrary import TEST_PATCH
@@ -57,10 +59,12 @@ class SwampbedDirector():
         self.bedmapper = Bedmapper()
         #setup led link
         self.ledLink = LedLinkManager(MOTHER_LED_PORT , MOTHER_BAUD)
-        #setup mooddirecto
+        #setup gesture reader
+        self.gestureReader = GestureReader()
+        #setup mooddirector
         self.moodDirector = MoodDirector(self.ledLink)
         #setup motherpanel director
-        self.panelDirector = PanelDirector(self.motherPanel , self.puredatabed)
+        self.panelDirector = PanelDirector(self.motherPanel , self.puredatabed , self.moodDirector)
    
         #initialise swarm
         self.swarm = Broodswarm(BROOD_IDS)
@@ -117,6 +121,12 @@ class SwampbedDirector():
         self._process_events(now)
         self._process_levels(now)
 
+        #gesture
+        gesture = self.gestureReader.update(now)
+        
+        if gesture is not None:
+
+            self.moodDirector.on_gesture(gesture , now)
 
     #probably can combine later if theres time 
 
@@ -150,7 +160,7 @@ class SwampbedDirector():
 
             for frame in panel_frames:
                 self.motherPanel.update(frame)
-                self.panelDirector.update()
+                self.panelDirector.update(now)
 
 
                 print(f"[SWAMPBEDDIRECTOR] Current Pot + Button Reads: {frame}")

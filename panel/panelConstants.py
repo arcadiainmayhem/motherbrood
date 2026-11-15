@@ -36,6 +36,7 @@ class ButtonParams:
     buttonType: BUTTON_TYPES    
 
 POT_DEADBAND = 0.005
+POT_ALPHA = 0.25
 
 POT_MASTERLIST = {
 
@@ -86,10 +87,13 @@ PANEL_FRAME = {
     "btn2" : int,
     "btn3" : int,
     "btn4" : int,
+    "btn5" : int,
+    "btn6" : int,
+    "btn7" : int,
+    "btn8" : int,
+    "btn9" : int,
+    "btn10" : int,
+    "btn11" : int,
 
-    # #group
 
-
-
-    #zone
 }

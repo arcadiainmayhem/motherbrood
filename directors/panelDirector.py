@@ -1,23 +1,24 @@
 
 
-from core.utilities import scale,smoothing,deadband , clamp
+from core.utilities import scale,smoothing,deadband , clamp 
+from gesture.gestureReader import GestureReader
 from panel.panelConstants import *
 
 class PanelDirector():
     
-    def __init__(self, motherPanel, pureDataManager):
+    def __init__(self, motherPanel, pureDataManager , moodDirector , gestureReader ):
 
 
-        self.motherPanel = motherPanel
-        self.pureDataManager = pureDataManager
-
+        self.motherPanel = motherPanel # passed in
+        self.pureDataManager = pureDataManager # passed in
+        self.moodDirector = moodDirector # passed in 
+        self.gestureReader = gestureReader
+        
         self.lastSentPotValues  = {}
-
 
         #setup pots - loop through pots + set value to params
 
-    def update(self):
-        updated_buttons = {}
+    def update(self , now):
 
         #---for pots
         for name, params in POT_MASTERLIST.items():
@@ -29,9 +30,7 @@ class PanelDirector():
 
             raw = self.motherPanel.potValues[name]
 
-
             #scale it before sending
-                
             value = scale(raw, params.input_min, params.input_max , params.output_min , params.output_max)
 
             clamped = clamp(value, params.output_min , params.output_max )
@@ -44,35 +43,40 @@ class PanelDirector():
 
             self.lastSentPotValues[name] = clamped
 
-            self._send_destination(params , clamped)
-
-
-
+            self._send_destination(params , clamped , now)
 
 
         #---for buttons
-        updated_buttons = self.motherPanel.button_changes()
+        changes = self.motherPanel.take_changes()
 
         
-
-        for name , value in updated_buttons.items():
+        for name , value in changes.items():
 
             params = BUTTON_MASTERLIST.get(name)
 
             if params is None:
                 continue
 
-            self._send_destination(params , value)
+            #keys only matter when pressed 
+            if params.buttonType == BUTTON_TYPES.MOMENTARY and value != 1:
+                continue
+
+
+            self._send_destination(params , value , now)
 
     
 
                   
-    def _send_destination(self , params, value):
+    def _send_destination(self , params, value , now):
+
+
         if params.destination == DESTINATION_PLACES.PUREDATA:
             self.pureDataManager.send_panel(params.target,value)
         elif params.destination == DESTINATION_PLACES.CICADAS:
             print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO CICADAS {params.target} , {value:.3f}")
         elif params.destination == DESTINATION_PLACES.FOR_PI:
             print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO PI {params.target} {value:.3f}")
-        
+        elif params.destination == DESTINATION_PLACES.GESTURE:
+            self.gestureReader.on_press(params.target , now)
+            print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO GESTURE -> {params.target}")
 

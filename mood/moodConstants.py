@@ -21,6 +21,7 @@ STARTINGMOTHERMOOD = MOOD.OBSERVANT
 MIN_DWELL = 30
 IDLE_TIME = 15
 TOUCH_EXPIRY = 60
+GESTURE_EXPIRY = 15
 
 class GESTURES(Enum):
     SOOTHE = 1
@@ -29,6 +30,10 @@ class GESTURES(Enum):
     WITHHOLD = 4
     PRAISE = 5
     SCOLD = 6
+    POKE = 7
+    WORSHIP = 8
+    SPEAK = 9 
+    DIVINE = 10
 
 #mood -> led  sound , interaction
 #params for mood changes
@@ -37,7 +42,7 @@ MOODRULES = {
 }
 MOTHERMOODS = {
 
-  MOOD.Idle : {    
+  MOOD.IDLE : {    
       "led" : {
           #zone - animation
           "passive" : 
