@@ -21,8 +21,6 @@ class MotherPanel():
 
 
     #1 is pressed. 0 is no activity
-
-
     def update(self, frame ):
 
         self.previousButtonValues = self.buttonValues.copy()
@@ -42,8 +40,7 @@ class MotherPanel():
             
         #--compare with prev button
         for name in BUTTON_MASTERLIST:
-     
-
+    
             #old
         
             oldValue = self.buttonValues.get(name)
@@ -54,9 +51,11 @@ class MotherPanel():
                 self.pendingButtonValues[name] = newValue
 
             self.buttonValues[name] = newValue
-
+            print(f"[MOTHERPANEL] Button oldValue: {oldValue} , Button newValue: {newValue}")
+        
         #store packet count 
         self.panelPeripheryValues["packetCount"] = frame["packetCount"]
+        
 
     def take_changes(self):
         changes = self.pendingButtonValues
