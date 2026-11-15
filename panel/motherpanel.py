@@ -51,7 +51,7 @@ class MotherPanel():
                 self.pendingButtonValues[name] = newValue
 
             self.buttonValues[name] = newValue
-            print(f"[MOTHERPANEL] Button oldValue: {oldValue} , Button newValue: {newValue}")
+            #print(f"[MOTHERPANEL] Button oldValue: {oldValue} , Button newValue: {newValue}")
         
         #store packet count 
         self.panelPeripheryValues["packetCount"] = frame["packetCount"]

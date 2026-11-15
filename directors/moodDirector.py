@@ -96,6 +96,7 @@ class MoodDirector():
         led = MOTHERMOODS[mood]["led"]
 
         for zone in ZoneId:
+            
 
             pid = led["passive"]
             self.ledlink.set_passive_animation(zone, pid)
@@ -128,7 +129,7 @@ class MoodDirector():
 
         self.gestureLog.append((gesture ,now))
 
-        print(f"[MOODDIRECTOR] Chosen Gesture: {self.gestureLog[g]}, TimeStamp: {now}")
+        print(f"[MOODDIRECTOR] Chosen Gesture: {self.gestureLog}, TimeStamp: {now}")
 
 
     #records a touch + mood pressure
