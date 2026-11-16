@@ -77,6 +77,6 @@ class PanelDirector():
         elif params.destination == DESTINATION_PLACES.FOR_PI:
             print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO PI {params.target} {value:.3f}")
         elif params.destination == DESTINATION_PLACES.MOOD:
-            self.gestureReader.on_press(params.target , now)
-            print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO GESTURE -> {params.target}")
+            self.gestureReader.on_press(params.name , now)
+            print(f"[PANELDIRECTOR] SENDING NAME TO GESTURE READER -> {params.name}")
 
