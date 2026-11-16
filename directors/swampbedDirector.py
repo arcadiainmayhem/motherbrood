@@ -122,9 +122,11 @@ class SwampbedDirector():
         self._process_levels(now)
 
         #gesture
-        gesture = self.gestureReader.update(now)
+        self.gestureReader.update(now)
+        gesture = self.gestureReader._classify_presses(now)
         print(f"[SWAMPBEDDIRECOTR] Current Gesture: {gesture}")
         
+
         if gesture is not None:
             print(f"[SWAMPBEDDIRECTOR] Gesture: {gesture} Received. Calling Mood Director")
             self.moodDirector.on_gesture(gesture , now)
