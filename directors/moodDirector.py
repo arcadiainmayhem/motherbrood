@@ -57,15 +57,7 @@ class MoodDirector():
 
         #reset
         self.touchTimes = [t for t in self.touchTimes if now - t <= TOUCH_EXPIRY]
-
-        #reset if last gesture time and first gesture time exceeds expiry
-        # firsTimestamp = self.gestureTimestamp[0]
-        # lastTimestamp = self.gestureTimestamp[len(self.gestureTimestamp) - 1]
-        # timeElapsed = lastTimestamp - firsTimestamp
-
-        # if timeElapsed >= GESTURE_EXPIRY:
-        #     #reset
-        #     self.gestureTimestamp = []
+   
 
         #reset
         kept = []
@@ -96,7 +88,7 @@ class MoodDirector():
         led = MOTHERMOODS[mood]["led"]
 
         for zone in ZoneId:
-            
+
 
             pid = led["passive"]
             self.ledlink.set_passive_animation(zone, pid)

@@ -37,7 +37,7 @@ class GestureReader():
             self.close_conversation()
 
 
-    def on_press(self ,  key , now):
+    def on_press(self , key , now):
 
         #if first press, start timer
         if not self.presses:

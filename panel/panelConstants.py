@@ -31,6 +31,7 @@ class PotParams:
 class ButtonParams:
     meaning:str
     destination : DESTINATION_PLACES
+    name : str
     buttonType: BUTTON_TYPES    
 
 POT_DEADBAND = 0.005
@@ -49,19 +50,19 @@ POT_MASTERLIST = {
 
 
 BUTTON_MASTERLIST = {
-    "btn1" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
-    "btn2" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
-    "btn3" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
-    "btn4" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
+    "btn1" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn1", BUTTON_TYPES.MOMENTARY),
+    "btn2" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn2",BUTTON_TYPES.MOMENTARY),
+    "btn3" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn3",BUTTON_TYPES.MOMENTARY),
+    "btn4" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn4",BUTTON_TYPES.MOMENTARY),
 
-    "btn5" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
-    "btn6" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
-    "btn7" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
-    "btn8" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
+    "btn5" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn5",BUTTON_TYPES.MOMENTARY),
+    "btn6" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn6",BUTTON_TYPES.MOMENTARY),
+    "btn7" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn7",BUTTON_TYPES.MOMENTARY),
+    "btn8" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn8",BUTTON_TYPES.MOMENTARY),
 
-    "btn9" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
-    "btn10" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
-    "btn11" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
+    "btn9" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn9",BUTTON_TYPES.MOMENTARY),
+    "btn10" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn10",BUTTON_TYPES.MOMENTARY),
+    "btn11" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn11",BUTTON_TYPES.MOMENTARY),
 
 }    
 
