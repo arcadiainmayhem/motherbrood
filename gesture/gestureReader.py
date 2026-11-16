@@ -34,7 +34,7 @@ class GestureReader():
 
         if stoppedPressing or tooLong:
             print(f"[GESTUREREADER] Timeout! Conversation Closing")
-            self.close_conversation()
+            return self.close_conversation()
 
 
     def on_press(self , key , now):

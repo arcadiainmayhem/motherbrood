@@ -62,7 +62,7 @@ class MoodDirector():
         #reset
         kept = []
         for entry in self.gestureLog:
-            t = self.gestureLog[1]
+            t = entry[1]
             if now - t <= GESTURE_EXPIRY:
                 kept.append(entry)
         self.gestureLog = kept
