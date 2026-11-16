@@ -109,15 +109,6 @@ class MoodDirector():
     #called by swamp bed , passes in chosen gesture ( post classify )
     def on_gesture(self, gesture , now):    
 
-        # #log gestures
-        # for g in gesture:
-        #     parsed_gesture = gesture[0]
-
-        #     self.gestureLog.append(parsed_gesture)
-
-        #     self.gestureLog.append(parsed_gesture)
-
-        #     self.gestureTimestamp.append(now)
 
         self.gestureLog.append((gesture ,now))
 

@@ -49,7 +49,7 @@ class GestureReader():
 
         self.lastPressTime = now
 
-        print(f"[GESTUREREADER] Current Button Press {key}, {now}")
+       #print(f"[GESTUREREADER] Current Button Press {key}, {now}")
 
 
         print(f"[GESTUREREADER] Current Set of Presses : {self.presses}")
