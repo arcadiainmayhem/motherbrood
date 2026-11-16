@@ -13,7 +13,7 @@ class PanelDirector():
         self.pureDataManager = pureDataManager # passed in
         self.moodDirector = moodDirector # passed in 
         self.gestureReader = gestureReader
-        
+
         self.lastSentPotValues  = {}
 
         #setup pots - loop through pots + set value to params
@@ -76,7 +76,7 @@ class PanelDirector():
             print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO CICADAS {params.target} , {value:.3f}")
         elif params.destination == DESTINATION_PLACES.FOR_PI:
             print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO PI {params.target} {value:.3f}")
-        elif params.destination == DESTINATION_PLACES.GESTURE:
+        elif params.destination == DESTINATION_PLACES.MOOD:
             self.gestureReader.on_press(params.target , now)
             print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO GESTURE -> {params.target}")
 

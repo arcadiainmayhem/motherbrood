@@ -33,6 +33,7 @@ class GestureReader():
         tooLong= ( now - self.startTime > MAX_CONVERSATION_WINDOW_INTERVAL)
 
         if stoppedPressing or tooLong:
+            print(f"[GESTUREREADER] Timeout! Conversation Closing")
             self.close_conversation()
 
 
@@ -49,6 +50,9 @@ class GestureReader():
         self.lastPressTime = now
 
         print(f"[GESTUREREADER] Current Button Press {key}, {now}")
+
+
+        print(f"[GESTUREREADER] Current Set of Presses : {self.presses}")
 
 
 

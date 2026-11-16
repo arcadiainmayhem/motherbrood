@@ -31,8 +31,6 @@ class PotParams:
 class ButtonParams:
     meaning:str
     destination : DESTINATION_PLACES
-    gesture: GESTURES
-    target:str
     buttonType: BUTTON_TYPES    
 
 POT_DEADBAND = 0.005
@@ -51,19 +49,19 @@ POT_MASTERLIST = {
 
 
 BUTTON_MASTERLIST = {
-    "btn1" : ButtonParams("hush_test" , DESTINATION_PLACES.PUREDATA, GESTURES.SOOTHE , "/panel/hush" , BUTTON_TYPES.MOMENTARY),
-    "btn2" : ButtonParams("hush_test" , DESTINATION_PLACES.PUREDATA, GESTURES.SOOTHE ,"/panel/hush" , BUTTON_TYPES.MOMENTARY),
-    "btn3" : ButtonParams("hush_test" , DESTINATION_PLACES.PUREDATA, GESTURES.SOOTHE ,"/panel/hush" , BUTTON_TYPES.MOMENTARY),
-    "btn4" : ButtonParams("hush_test" , DESTINATION_PLACES.PUREDATA, GESTURES.SOOTHE ,"/panel/hush" , BUTTON_TYPES.MOMENTARY),
+    "btn1" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
+    "btn2" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
+    "btn3" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
+    "btn4" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
 
-    "btn5" : ButtonParams("hush_test" , DESTINATION_PLACES.PUREDATA, GESTURES.SOOTHE ,"/panel/hush" , BUTTON_TYPES.MOMENTARY),
-    "btn6" : ButtonParams("hush_test" , DESTINATION_PLACES.PUREDATA, GESTURES.SOOTHE ,"/panel/hush" , BUTTON_TYPES.MOMENTARY),
-    "btn7" : ButtonParams("hush_test" , DESTINATION_PLACES.PUREDATA, GESTURES.SOOTHE ,"/panel/hush" , BUTTON_TYPES.MOMENTARY),
-    "btn8" : ButtonParams("hush_test" , DESTINATION_PLACES.PUREDATA, GESTURES.SOOTHE ,"/panel/hush" , BUTTON_TYPES.MOMENTARY),
+    "btn5" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
+    "btn6" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
+    "btn7" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
+    "btn8" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
 
-    "btn9" : ButtonParams("hush_test" , DESTINATION_PLACES.PUREDATA, GESTURES.SOOTHE ,"/panel/hush" , BUTTON_TYPES.MOMENTARY),
-    "btn10" : ButtonParams("hush_test" , DESTINATION_PLACES.PUREDATA, GESTURES.SOOTHE ,"/panel/hush" , BUTTON_TYPES.MOMENTARY),
-    "btn11" : ButtonParams("hush_test" , DESTINATION_PLACES.PUREDATA, GESTURES.SOOTHE ,"/panel/hush" , BUTTON_TYPES.MOMENTARY),
+    "btn9" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
+    "btn10" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
+    "btn11" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , BUTTON_TYPES.MOMENTARY),
 
 }    
 

@@ -125,7 +125,7 @@ class SwampbedDirector():
         gesture = self.gestureReader.update(now)
 
         if gesture is not None:
-
+            
             self.moodDirector.on_gesture(gesture , now)
 
     #probably can combine later if theres time 
@@ -163,7 +163,7 @@ class SwampbedDirector():
                 self.panelDirector.update(now)
 
 
-                print(f"[SWAMPBEDDIRECTOR] Current Pot + Button Reads: {frame}")
+                #print(f"[SWAMPBEDDIRECTOR] Current Pot + Button Reads: {frame}")
 
 
         except Exception as e:
