@@ -123,10 +123,14 @@ class SwampbedDirector():
 
         #gesture
         gesture = self.gestureReader.update(now)
-
+        print(f"[SWAMPBEDDIRECOTR] Current Gesture: {gesture}")
+        
         if gesture is not None:
-            print(f"[SWAMPBEDDIRECTOR] Gesture Received. Calling Mood Director")
+            print(f"[SWAMPBEDDIRECTOR] Gesture: {gesture} Received. Calling Mood Director")
             self.moodDirector.on_gesture(gesture , now)
+
+        #mood 
+        self.moodDirector.update(now)
 
     #probably can combine later if theres time 
 

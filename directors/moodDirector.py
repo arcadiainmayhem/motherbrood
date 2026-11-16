@@ -20,7 +20,8 @@ class MoodDirector():
         self.gestureLog = []
         
         self.gestureTimestamp = []
-        
+
+        self.touchTimes = []
 
         #track current zone?
 
@@ -31,8 +32,7 @@ class MoodDirector():
                   print(f"[MOODDIRECTOR] Missing Mood : {mood}")
                   raise ValueError("MISSING MOOD")
               
-        self.touchTimes = []
-        
+       
 
     #reads touch events , checks combo + decides whether mood should change
     def update(self, now):
@@ -106,7 +106,7 @@ class MoodDirector():
         return MOOD.PLACATED
         #use rules to determine
 
-    #called by swamp bed , passes in chosen gesture ( post classify )
+    #called by swamp bed director , passes in chosen gesture ( post classify )
     def on_gesture(self, gesture , now):    
 
 
