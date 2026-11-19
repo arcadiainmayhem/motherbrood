@@ -111,29 +111,18 @@ class GestureReader():
 
     def _rule_matches(self , rule , incoming ):
 
-        #COUNT
-        if "min_count" in rule and incoming["count"] < rule["min_count"]:
-            return False
-        if "max_count" in rule and incoming["count"] > rule["max_count"]:
-            return False
-        
-        #DISTINCT
-        if "min_distinct" in rule and incoming["distinct"] < rule["min_distinct"]:
-            return False
-        if "max_distinct" in rule and incoming["distinct"] > rule["max_distinct"]:
-            return False
-
-        #SPAN
-        if "min_span" in rule and incoming["span"] < rule["min_span"]:
-            return False
-        if "max_span" in rule and incoming["span"] > rule["max_span"]:
-            return False
-
-        #GAP
-        if "min_gap" in rule and incoming["gap"] < rule["min_gap"]:
-            return False
-        if "max_gap" in rule and incoming["gap"] > rule["max_gap"]:
-            return False
+        #minimum
+        for params in incoming:
+            check = f"min_{params}"
+            if check in rule:
+                if incoming[check] < rule[params]:
+                    return False
+        #maximum
+        for params in incoming:
+            check = f"max_{params}"
+            if check in rule:
+                if incoming[check] > rule[params]:
+                    return False
 
         return True
     

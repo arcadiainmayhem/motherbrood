@@ -1,5 +1,5 @@
 
-from mood.moodConstants import MOTHERMOODS , MOODRULES , MIN_DWELL , IDLE_TIME , TOUCH_EXPIRY , STARTINGMOTHERMOOD , MOOD , GESTURE_EXPIRY , TOUCH_EFFECTS , DECAY_VALUE , JITTER
+from mood.moodConstants import MOTHERMOODS , MOOD_RULES , MIN_DWELL , TOUCH_EXPIRY , STARTINGMOTHERMOOD , MOOD , GESTURES, MOODPARAMS, BASELINE, GESTURE_EXPIRY , TOUCH_EFFECTS , DECAY_VALUE , JITTER , GESTURE_EFFECTS
 from led.ledConstants import ZoneId
 import time
 import random
@@ -30,18 +30,15 @@ class MoodDirector():
         self.lastUpdate = None
         #track mentality
         self.state  = {
-                "peace" : 0.05,
+                "peace" : 0.0,
                 "irritability" : 0.0,
                 "awareness" : 0.0,
-                "affection" : 0.05,
+                "affection" : 0.0,
                 "energy" : 0.0,
-            }
+            }   
+
+        self.health_check()
     
-        #health check for mood being present
-        for mood in MOOD:
-              if mood not in MOTHERMOODS:
-                  print(f"[MOODDIRECTOR] Missing Mood : {mood}")
-                  raise ValueError("MISSING MOOD")
 
   
 
@@ -59,7 +56,7 @@ class MoodDirector():
             if kind == "T":
              self.on_touch(data["zone"], now)
 
-        #decide target 
+        #decide mood 
         target = self._pick_mood(now) #gets string for mood
 
         #if target mood isnt current mood, and time has passed minimum dwell
@@ -78,7 +75,8 @@ class MoodDirector():
                 kept.append(entry)
         self.gestureLog = kept
 
-        
+        print(f"[MOODDIRECTOR] Curren State { self.state }")
+
         self.fading_state_values(self.state,now)
 
     #checks mapping + telling led manager which zone to play
@@ -101,22 +99,55 @@ class MoodDirector():
 
         for zone in ZoneId:
 
-
             pid = led["passive"]
             self.ledlink.set_passive_animation(zone, pid)
             oid = led["overlay"]
             self.ledlink.set_overlay_animation(zone, oid)
                             
 
-    def _pick_mood(self,now):
+    def _rule_matches(self, rule , incoming ):
 
-  
-        #if no touch yet, or too long no touch, change 
-        if self.lastTouchTime is None or (now - self.lastTouchTime) >= IDLE_TIME:
-            return MOOD.IDLE
+
+        #minimums
+        for drive in incoming:
+            check = f"min_{drive}"
+            if check in rule:
+                if incoming[drive] < rule[check]: 
+                    return False
+        #maximum        
+            check = f"max_{drive}"
+            if check in rule:
+                if incoming[drive] > rule[check]: 
+                    return False       
         
-        return MOOD.PLACATED
+        return True
+    
+    def _pick_mood(self,now):
         #use rules to determine
+
+        #check current state
+        incoming = self.state
+
+        for mood , rule in MOOD_RULES.items():
+            if self._rule_matches(rule , incoming):
+                return mood
+
+        return MOOD.IDLE
+  
+
+    def _apply_effects(self , chosen):
+        #apply effects to state - currently random effect 
+
+        for effect , value in chosen.items():
+            if effect in self.state:
+                jitterValue = random.uniform(-JITTER , JITTER)
+                currentVal = self.state[effect]
+                outcome = currentVal + (value + jitterValue)
+                clamped = clamp(outcome , 0.0 , 1.0)
+                #return to dict
+                self.state[effect] = clamped
+
+        print(f"[MOODDIRECTOR] Current Effect being Applied :{chosen} ")
 
     #called by swamp bed director , passes in chosen gesture ( post classify )
     def on_gesture(self, gesture , now):    
@@ -124,9 +155,13 @@ class MoodDirector():
 
         self.gestureLog.append((gesture ,now))
 
+        chosen = GESTURE_EFFECTS[gesture]
         #when hit certain gesture , affect state params
 
-        print(f"[MOODDIRECTOR] Chosen Gesture: {self.gestureLog}, TimeStamp: {now}")
+        self._apply_effects(chosen)
+
+        print(f"[MOODDIRECTOR] Chosen Gesture : {gesture}, Previous Gestures: {self.gestureLog}, TimeStamp: {now}")
+
 
 
     #records a touch + mood pressure
@@ -144,18 +179,14 @@ class MoodDirector():
 
         #apply effects to state - currently random effect 
         chosen = random.choice(list(TOUCH_EFFECTS.values()))
-        for effect , value in chosen.items():
-            if effect in self.state:
-                jitterVal = random.uniform(-JITTER , JITTER)
-                currentVal = self.state[effect] 
-                outcome = currentVal+ ( value + jitterVal )
-                clamped = clamp(outcome , 0.0 , 1.0)
-                #return to dict
-                self.state[effect] = clamped
+
+        self._apply_effects(chosen)
+
 
         print(f"[MOODDIRECTOR] Current Zone being Touched:{zone} , Timestamp: {now}")
 
-    def _apply_effects(self , effect):
+    def _on_mood_change(self , mood):
+        #send to pd
         pass
 
     def fading_state_values(self, state , now):
@@ -164,17 +195,55 @@ class MoodDirector():
             self.lastUpdate = now
             return
         
-        lastFaded = self.lastUpdate[0]
+        lastFaded = self.lastUpdate
         
         delta = now - lastFaded
         #update dictionary
         for x in state:
-            value = state[x]
-            #change to decay dict ( different decay values )
-            step = DECAY_VALUE * delta
-            faded = value - step
-            final = clamp(faded, 0.0 , 1.0)
-            state[x] = final
+                value = state[x]
+                #change to decay dict ( different decay values )
+                step = DECAY_VALUE * delta
 
+                if value != BASELINE[x]:
+                    baseline = BASELINE[x] 
+
+                    if value > baseline:
+                        final = clamp(value - step, baseline, 1.0)
+                    elif value < baseline:
+                        final = clamp(value + step, 0.0 , baseline)
+                        
+                        
+                self.state[x] = final
                 
         self.lastUpdate = now
+
+
+    def health_check(self):
+        #health check for mood being present
+        for mood in MOOD:
+              if mood not in MOTHERMOODS:
+                print(f"[MOODDIRECTOR] Missing Mood : {mood}")
+                raise ValueError("MISSING MOOD")
+
+        for rule in MOOD_RULES.values():
+                for param in rule:
+                    if param not in MOODPARAMS:
+                        print(f"[MOODDIRECTOR] Missing Mood Rule : {param}")
+                        raise ValueError("MISSING RULE")
+
+        for gesture in GESTURES:
+            if gesture not in GESTURE_EFFECTS:
+                print(f"[MOODDIRECTOR] Missing Gesture : {gesture}")
+                raise ValueError("MISSING GESTURE")
+
+        for drive in TOUCH_EFFECTS.values():
+            for param in drive:
+                if param not in self.state:
+                    print(f"[MOODDIRECTOR] Missing Param in Touch Effects : {param}")
+                    raise ValueError("MISSING DRIVE IN TOUCH EFFECTS")                      
+            
+        for drive in GESTURE_EFFECTS.values():
+            for param in drive:
+                if param not in self.state:
+                    print(f"[MOODDIRECTOR] Missing Drive in Gesture Effects : {param}")
+                    raise ValueError("MISSING DRIVE IN GESTURE EFFECTS")              
