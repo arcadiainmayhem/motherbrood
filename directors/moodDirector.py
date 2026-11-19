@@ -1,7 +1,9 @@
 
-from mood.moodConstants import MOTHERMOODS , MOODRULES , MIN_DWELL , IDLE_TIME , TOUCH_EXPIRY , STARTINGMOTHERMOOD , MOOD , GESTURE_EXPIRY
+from mood.moodConstants import MOTHERMOODS , MOODRULES , MIN_DWELL , IDLE_TIME , TOUCH_EXPIRY , STARTINGMOTHERMOOD , MOOD , GESTURE_EXPIRY , TOUCH_EFFECTS , DECAY_VALUE , JITTER
 from led.ledConstants import ZoneId
 import time
+import random
+from core.utilities import clamp
 
 class MoodDirector():
 
@@ -16,28 +18,37 @@ class MoodDirector():
         #time
 
         self.lastTouchTime = None
+        self.touchTimes = []
+        self.touchLog = []
 
         self.gestureLog = []
         
         self.gestureTimestamp = []
 
-        self.touchTimes = []
 
         #track current zone?
-
-
+        self.lastUpdate = None
+        #track mentality
+        self.state  = {
+                "peace" : 0.05,
+                "irritability" : 0.0,
+                "awareness" : 0.0,
+                "affection" : 0.05,
+                "energy" : 0.0,
+            }
+    
         #health check for mood being present
         for mood in MOOD:
               if mood not in MOTHERMOODS:
                   print(f"[MOODDIRECTOR] Missing Mood : {mood}")
                   raise ValueError("MISSING MOOD")
-              
-       
+
+  
 
     #reads touch events , checks combo + decides whether mood should change
     def update(self, now):
-        
 
+        
         #check using poll 
         frame = self.ledlink.poll()
 
@@ -67,7 +78,8 @@ class MoodDirector():
                 kept.append(entry)
         self.gestureLog = kept
 
-
+        
+        self.fading_state_values(self.state,now)
 
     #checks mapping + telling led manager which zone to play
     def change_mood(self, mood ,  now ):
@@ -112,6 +124,8 @@ class MoodDirector():
 
         self.gestureLog.append((gesture ,now))
 
+        #when hit certain gesture , affect state params
+
         print(f"[MOODDIRECTOR] Chosen Gesture: {self.gestureLog}, TimeStamp: {now}")
 
 
@@ -125,6 +139,42 @@ class MoodDirector():
         
         #append to a list
         self.touchTimes.append(now)
+        #see what has been touched
+        self.touchLog.append((zone,now))
 
+        #apply effects to state - currently random effect 
+        chosen = random.choice(list(TOUCH_EFFECTS.values()))
+        for effect , value in chosen.items():
+            if effect in self.state:
+                jitterVal = random.uniform(-JITTER , JITTER)
+                currentVal = self.state[effect] 
+                outcome = currentVal+ ( value + jitterVal )
+                clamped = clamp(outcome , 0.0 , 1.0)
+                #return to dict
+                self.state[effect] = clamped
 
         print(f"[MOODDIRECTOR] Current Zone being Touched:{zone} , Timestamp: {now}")
+
+    def _apply_effects(self , effect):
+        pass
+
+    def fading_state_values(self, state , now):
+
+        if self.lastUpdate is None:
+            self.lastUpdate = now
+            return
+        
+        lastFaded = self.lastUpdate[0]
+        
+        delta = now - lastFaded
+        #update dictionary
+        for x in state:
+            value = state[x]
+            #change to decay dict ( different decay values )
+            step = DECAY_VALUE * delta
+            faded = value - step
+            final = clamp(faded, 0.0 , 1.0)
+            state[x] = final
+
+                
+        self.lastUpdate = now

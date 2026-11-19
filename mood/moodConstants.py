@@ -18,10 +18,12 @@ class MOOD(IntEnum):
 STARTINGMOTHERMOOD = MOOD.OBSERVANT
 
 #TUNING
-MIN_DWELL = 30
+MIN_DWELL = 20
 IDLE_TIME = 15
 TOUCH_EXPIRY = 60
-GESTURE_EXPIRY = 15
+GESTURE_EXPIRY = 35
+DECAY_VALUE = 0.02
+JITTER = 0.08 #change later?
 
 class GESTURES(Enum):
     SOOTHE = 1
@@ -40,6 +42,33 @@ class GESTURES(Enum):
 MOODRULES = {
     
 }
+
+TOUCH_EFFECTS= {
+    "ZONE_EFFECT_1" : {
+        "peace": 0.3,
+        "irritability": -0.2,
+        "affection": 0.4,
+        "awareness": -0.1,    
+    },
+    "ZONE_EFFECT_2" : {
+        "peace": -0.2,
+        "irritability": 0.2,
+        "affection": -0.3,
+        "awareness": 0.3,   
+    },
+    "ZONE_EFFECT_3" : {
+        "energy": -0.2,
+        "affection": 0.4,
+        "awareness": -0.1,   
+    },
+    "ZONE_EFFECT_4" : {
+        "peace": -0.2,
+        "irritability": 0.25,
+        "energy": 0.4,
+    },
+
+
+}
 MOTHERMOODS = {
 
   MOOD.IDLE : {    
@@ -53,9 +82,6 @@ MOTHERMOODS = {
           
       },
       "sound":{
-          
-      },
-      "interaction" : {
           
       },
   },
@@ -72,9 +98,6 @@ MOTHERMOODS = {
       "sound":{
           
       },
-      "interaction" : {
-             
-  }
   },
   MOOD.WARY : {
     "led" : {
@@ -89,10 +112,7 @@ MOTHERMOODS = {
       "sound":{
           
       },
-      "interaction" : {
-          
-        
-  }
+      
   },
   MOOD.OBSERVANT : {
         "led" : {
@@ -107,9 +127,7 @@ MOTHERMOODS = {
       "sound":{
           
       },
-      "interaction" : {
-          
-    }
+
   },
   MOOD.FURIOUS : {
       "led" : {
@@ -124,9 +142,7 @@ MOTHERMOODS = {
       "sound":{
           
       },
-      "interaction" : {
-          
-      },
+
     },        
   
   MOOD.EXCITED : {
@@ -142,9 +158,7 @@ MOTHERMOODS = {
       "sound":{
           
       },
-      "interaction" : {
-          
-      },
+
   },         
     
   MOOD.MATERNAL : {
@@ -160,9 +174,7 @@ MOTHERMOODS = {
       "sound":{
           
       },
-      "interaction" : {
-          
-      },
+
   },          
     
   MOOD.PREACHY : {
@@ -178,9 +190,7 @@ MOTHERMOODS = {
       "sound":{
           
       },
-      "interaction" : {
-          
-      },
+
   },          
    
   MOOD.GACHA : {
@@ -196,9 +206,7 @@ MOTHERMOODS = {
       "sound":{
           
       },
-      "interaction" : {
-          
-      },
+
   },         
 }   
 
