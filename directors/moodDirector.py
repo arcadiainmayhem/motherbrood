@@ -14,8 +14,10 @@ class MoodDirector():
         #initialises initial mood
         self.currentMood = STARTINGMOTHERMOOD
 
+        self.currentZoneTouched  = None
         self.moodStart = time.monotonic()
         #time
+
 
         self.lastTouchTime = None
         self.touchTimes = []
@@ -112,7 +114,7 @@ class MoodDirector():
         for drive in incoming:
             check = f"min_{drive}"
             if check in rule:
-                if incoming[drive] < rule[check]: 
+                if incoming[drive] < rule[check]:     
                     return False
         #maximum        
             check = f"max_{drive}"
@@ -177,6 +179,8 @@ class MoodDirector():
         #see what has been touched
         self.touchLog.append((zone,now))
 
+        self.currentZoneTouched = zone
+
         #apply effects to state - currently random effect 
         chosen = random.choice(list(TOUCH_EFFECTS.values()))
 
@@ -185,9 +189,15 @@ class MoodDirector():
 
         print(f"[MOODDIRECTOR] Current Zone being Touched:{zone} , Timestamp: {now}")
 
+    def get_current_zone_touched(self):
+        return self.currentZoneTouched 
+
     def _on_mood_change(self , mood):
         #send to pd
         pass
+
+    def get_current_mood(self):
+        return self.currentMood
 
     def fading_state_values(self, state , now):
 

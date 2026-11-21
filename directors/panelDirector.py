@@ -15,7 +15,9 @@ class PanelDirector():
         self.gestureReader = gestureReader
 
         self.lastSentPotValues  = {}
+        self.currentPanelButtonTouched = None
 
+        self.panelMessagesForStatus = []
         #setup pots - loop through pots + set value to params
 
     def update(self , now):
@@ -43,7 +45,9 @@ class PanelDirector():
 
             self.lastSentPotValues[name] = clamped
 
-            self._send_destination(params , clamped , now)
+            self.panelMessagesForStatus.append(params , value)
+
+            self._send_destination(params , clamped )
 
 
         #---for buttons
@@ -61,13 +65,15 @@ class PanelDirector():
             if params.buttonType == BUTTON_TYPES.MOMENTARY and value != 1:
                 continue
 
+            self.currentPanelButtonTouched = name 
 
-            self._send_destination(params , value , now)
+            self._send_destination(name, params , value , now)
 
     
-
+    def get_current_panel_button_pressed(self):
+        return self.currentPanelButtonTouched
                   
-    def _send_destination(self , params, value , now):
+    def _send_destination(self ,name , params, value , now):
 
 
         if params.destination == DESTINATION_PLACES.PUREDATA:
@@ -76,7 +82,9 @@ class PanelDirector():
             print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO CICADAS {params.target} , {value:.3f}")
         elif params.destination == DESTINATION_PLACES.FOR_PI:
             print(f"[PANELDIRECTOR] SENDING PARAMS + VALUES TO PI {params.target} {value:.3f}")
-        elif params.destination == DESTINATION_PLACES.MOOD:
-            self.gestureReader.on_press(params.name , now)
-            print(f"[PANELDIRECTOR] SENDING NAME TO GESTURE READER -> {params.name}")
+        elif params.destination == DESTINATION_PLACES.GESTURE:
+            self.gestureReader.on_press(name , now)
+            print(f"[PANELDIRECTOR] SENDING NAME TO GESTURE READER -> {name}")
 
+    def get_panel_messages_to_puredata(self ):
+        return [params,value]

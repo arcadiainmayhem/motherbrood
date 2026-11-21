@@ -4,6 +4,10 @@ import os
 
 MODE = "installation"
 
+#for flask
+STATUS_SERVER_PORT = 8080
+
+
 #dev mode on Windows , live on Linunx
 DEV_MODE =  platform.system() != "Linux"
 
@@ -53,8 +57,6 @@ AUDIO_DEVICE = "Headphones"
 
 #audio channel can shift?
 AUDIOCHANNEL = "1"
-
-
 
 
 

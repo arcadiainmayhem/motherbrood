@@ -10,7 +10,7 @@ class DESTINATION_PLACES(Enum):
     PUREDATA = 1
     CICADAS = 2
     FOR_PI = 3
-    MOOD = 4
+    GESTURE = 4
 
 class BUTTON_TYPES(Enum):
     MOMENTARY = 1
@@ -29,7 +29,7 @@ class PotParams:
 
 @dataclass(frozen=True)
 class ButtonParams:
-    meaning:str
+    # meaning:str
     destination : DESTINATION_PLACES
     name : str
     buttonType: BUTTON_TYPES    
@@ -38,31 +38,29 @@ POT_DEADBAND = 0.005
 POT_ALPHA = 0.25
 
 POT_MASTERLIST = {
-
-    "pot1" : PotParams("level_test", DESTINATION_PLACES.PUREDATA, "/panel/level"),
-    "pot2" : PotParams("tone_test", DESTINATION_PLACES.PUREDATA, "/panel/tone"),
-    "pot3" : PotParams("A", DESTINATION_PLACES.PUREDATA, "/panel/tone"),
-    "pot4" : PotParams("B", DESTINATION_PLACES.PUREDATA, "/panel/tone"),
-    "pot5" : PotParams("C", DESTINATION_PLACES.PUREDATA, "/panel/tone"),
-    "pot6" : PotParams("D", DESTINATION_PLACES.PUREDATA, "/panel/tone"),
-
+    "pot1": PotParams("openness",  DESTINATION_PLACES.PUREDATA, "/panel/openness"),
+    "pot2": PotParams("darkness",  DESTINATION_PLACES.PUREDATA, "/panel/darkness",  output_min=0.1, output_max=0.9),
+    "pot3": PotParams("resonance", DESTINATION_PLACES.PUREDATA, "/panel/resonance", output_max=0.85),
+    "pot4": PotParams("mud",       DESTINATION_PLACES.PUREDATA, "/panel/mud",       output_max=0.7),
+    "pot5": PotParams("space",     DESTINATION_PLACES.PUREDATA, "/panel/space",     output_min=0.1, output_max=0.8),
+    "pot6": PotParams("level",     DESTINATION_PLACES.PUREDATA, "/panel/level",     output_min=0.2, output_max=0.9),
 }
 
 
 BUTTON_MASTERLIST = {
-    "btn1" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn1", BUTTON_TYPES.MOMENTARY),
-    "btn2" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn2",BUTTON_TYPES.MOMENTARY),
-    "btn3" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn3",BUTTON_TYPES.MOMENTARY),
-    "btn4" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn4",BUTTON_TYPES.MOMENTARY),
+    "btn1" : ButtonParams( DESTINATION_PLACES.GESTURE ,  BUTTON_TYPES.MOMENTARY),
+    "btn2" : ButtonParams( DESTINATION_PLACES.GESTURE ,  BUTTON_TYPES.MOMENTARY),
+    "btn3" : ButtonParams( DESTINATION_PLACES.GESTURE ,  BUTTON_TYPES.MOMENTARY),
+    "btn4" : ButtonParams( DESTINATION_PLACES.GESTURE ,  BUTTON_TYPES.MOMENTARY),
 
-    "btn5" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn5",BUTTON_TYPES.MOMENTARY),
-    "btn6" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn6",BUTTON_TYPES.MOMENTARY),
-    "btn7" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn7",BUTTON_TYPES.MOMENTARY),
-    "btn8" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn8",BUTTON_TYPES.MOMENTARY),
+    "btn5" : ButtonParams( DESTINATION_PLACES.GESTURE ,  BUTTON_TYPES.MOMENTARY),
+    "btn6" : ButtonParams( DESTINATION_PLACES.GESTURE ,  BUTTON_TYPES.MOMENTARY),
+    "btn7" : ButtonParams( DESTINATION_PLACES.GESTURE ,  BUTTON_TYPES.MOMENTARY),
+    "btn8" : ButtonParams( DESTINATION_PLACES.GESTURE ,  BUTTON_TYPES.MOMENTARY),
 
-    "btn9" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn9",BUTTON_TYPES.MOMENTARY),
-    "btn10" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn10",BUTTON_TYPES.MOMENTARY),
-    "btn11" : ButtonParams("hush_test" , DESTINATION_PLACES.MOOD , "btn11",BUTTON_TYPES.MOMENTARY),
+    "btn9" : ButtonParams( DESTINATION_PLACES.GESTURE ,  BUTTON_TYPES.MOMENTARY),
+    "btn10" : ButtonParams( DESTINATION_PLACES.GESTURE , BUTTON_TYPES.MOMENTARY),
+    "btn11" : ButtonParams( DESTINATION_PLACES.GESTURE , BUTTON_TYPES.MOMENTARY),
 
 }    
 

@@ -13,7 +13,7 @@ class GestureReader():
 
         self.startTime = None
         self.lastPressTime = None
-        
+        self.currentGesture = None
         #raise error if limit isnt inparams
         for x in GESTURE_RULES: #loop through gesture keys
             for limit in GESTURE_RULES[x]:
@@ -100,6 +100,8 @@ class GestureReader():
 
         gesture = self._classify_presses(count , distinct , span , average)
 
+        self.currentGesture = gesture
+
         print(f"[GESTUREREADER] keys={keys} count={count} distinct={distinct} "
             f"span={span:.1f}s gap={average:.2f}s → {gesture}")
         #reset
@@ -108,6 +110,9 @@ class GestureReader():
         self.lastPressTime = None
 
         return gesture
+
+    def get_current_gesture(self):
+        return self.currentGesture
 
     def _rule_matches(self , rule , incoming ):
 

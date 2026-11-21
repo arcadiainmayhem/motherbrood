@@ -29,6 +29,8 @@ class PuredataManager:
 
         self.process = None
 
+        self.lastSent = {}
+
         #start Client for bugs
         # if DEV_MODE:
         #     self.osc_client = SimpleUDPClient(WINDOWS_TARGET_IP,osc_port)
@@ -168,9 +170,13 @@ class PuredataManager:
         return self.process is not None and self.process.poll() is None
 
 
-    def send(self, address , value):
+    def send(self, address , value ):
+        now = time.monotonic()
         self.osc_client.send_message(address, value)
-
+        self.lastSent[address] = (value,now)
 
     def send_panel(self,address,value):
+        now = time.monotonic()
+
         self.panel_osc_client.send_message(address,value)
+        self.lastSent[address] = (value,now)

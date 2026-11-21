@@ -1,5 +1,6 @@
 
 from directors.swampbedDirector import SwampbedDirector
+from monitoring.status_server import start_status_server
 import time
 
 def main():
@@ -15,6 +16,10 @@ def main():
             return 
 
         print("[MAIN] Swampbed Started Successfully ")     
+
+
+        start_status_server.start()
+        print("[MAIN] Status Server Started Successfully ")     
 
         while True:
             time.sleep(0.1)

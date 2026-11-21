@@ -19,11 +19,12 @@ from swamp.cicada.cicadaConstants import BROOD_IDS
 from swamp.cicada.swarmReader import SwarmReader
 from swamp.bed.swampbedConstants import BED_PREFIX , PANEL_PREFIX
 
-from core.installationConstants import MODE
+from core.installationConstants import MODE 
 from hardware.hardwareConstants import MOTHER_PORT,MOTHER_BAUD , MOTHER_PANEL_PORT , MOTHER_LED_PORT
 
-from directors.moodDirector import MoodDirector
 from led.ledlinkManager import LedLinkManager
+
+from monitoring.status_logger import STATUS_REPORT
 
 import time
 
@@ -41,6 +42,9 @@ class SwampbedDirector():
         self.isAudioConnected = False
         self.isAudioActive = False
 
+        #status report
+
+        self.lastReport = 0
         #check for patch availability
 
 
@@ -104,6 +108,7 @@ class SwampbedDirector():
             print("[SWAMPBEDDIRECTOR] MOTHER Panel Port Not Open")
             return False      
 
+     
 
         #after everything has been iniitialised
         self.isSwampActive = True
@@ -121,6 +126,11 @@ class SwampbedDirector():
         self._process_events(now)
         self._process_levels(now)
 
+
+        if (now - self.lastReport) >=  REPORT_INTERVAL:
+            self._report_status(now)
+            self.lastReport = now
+
         #gesture
         gesture = self.gestureReader.update(now)
         
@@ -129,6 +139,44 @@ class SwampbedDirector():
             self.moodDirector.on_gesture(gesture , now)
 
     #probably can combine later if theres time 
+
+    def _report_status(self , now):
+        #pulls data of current status for logger to take
+        active_cicadas = self.swarm.active_count()
+        calling_count = self.swarm.calling_count(now)   
+
+        cicadaStatusMessages = {} 
+        panelStatusMessages = {}
+
+        for address, ( value, sent_at) in self.puredatabed.lastSent.items():
+            if address.startswith(BED_PREFIX):
+                name = address[len(BED_PREFIX):]
+                cicadaStatusMessages[name] = {
+                    "value" : value,
+                    "age" : round(now - sent_at, 1),
+                }
+            elif address.startswith(PANEL_PREFIX):
+                name = address[len(PANEL_PREFIX):]
+                panelStatusMessages[name] = value
+            else:
+                print(f"[SWAMPBEDDIRECTOR Uncognised Address {address}]")
+
+        STATUS_REPORT["current_active_cicadas"] = active_cicadas
+        STATUS_REPORT["current_calling_cicadas"] = calling_count
+
+        STATUS_REPORT["cicada_messages_to_puredata"]  = cicadaStatusMessages
+
+        STATUS_REPORT["panel_messages_to_puredata"] = panelStatusMessages
+
+        STATUS_REPORT["current_button_press"] = self.panelDirector.get_current_panel_button_pressed()
+
+        STATUS_REPORT["current_active_gesture"] = self.gestureReader.get_current_gesture()
+
+        STATUS_REPORT["current_mother_mood"]  = self.moodDirector.get_current_mood()
+
+
+        STATUS_REPORT["current_zone_touched"] = self.moodDirector.get_current_zone_touched()
+
 
     #reads incoming frames
     def _read_bug_frames(self, now):

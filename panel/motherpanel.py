@@ -26,7 +26,7 @@ class MotherPanel():
         #self.previousButtonValues = self.buttonValues.copy()
 
         #check incoming frame
-        
+    
         
         #-- smooth once before storing
         for name in POT_MASTERLIST:
@@ -60,38 +60,4 @@ class MotherPanel():
         changes = self.pendingButtonValues
         self.pendingButtonValues = {}
         return changes
-
-
-
-
-    # def button_changes(self):
-    #     #decide if something happened
-    #     #current - in order
-    #     #clear every round
-    #     self.buttonStatus = {}
-    #     #for momentary buttons
-    #     for name , value in self.buttonValues.items():
-    #         #guard against empty
-    #         if name not in self.previousButtonValues:
-    #             continue
-    #         #check difference in value        
-    #         previousValue = self.previousButtonValues[name]
-
-    #         outcome = value - previousValue
-    #             #difference - change - pressed
-    #         if outcome == -1 :
-    #             #print("[MOTHERPANEL] No Press")  
-
-    #             #for latching buttons 
-    #             pass 
-    #         elif outcome == 1:
-
-    #             print("[MOTHERPANEL] Pressed")  
-
-    #             self.buttonStatus[name] = value
-
-
-    #     return self.buttonStatus
-
-
 
